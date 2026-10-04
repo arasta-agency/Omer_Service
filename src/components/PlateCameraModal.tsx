@@ -211,19 +211,19 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-4 overflow-y-auto text-right font-kurdish">
-      <div className="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-3 sm:p-4 overflow-y-auto text-right font-kurdish">
+      <div className="relative w-full max-w-lg bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800 bg-slate-950/80">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-slate-50">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-white">
-              <Camera className="w-4 h-4 text-slate-200" />
+            <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-900 shadow-2xs">
+              <Camera className="w-4 h-4 text-slate-700" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
                 سکانی تابلۆی ئۆتۆمبێل بە کامێرا
               </h3>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-slate-500">
                 خوێندنەوەی خودکاریی تابلۆ (وەک: 21 H 11111) بە ژیری دەستکرد
               </p>
             </div>
@@ -231,7 +231,7 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition"
+            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -273,7 +273,7 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
               <button
                 type="button"
                 onClick={handleFlipCamera}
-                className="absolute top-3 left-3 p-2 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white border border-slate-700 backdrop-blur-sm transition"
+                className="absolute top-3 left-3 p-2 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white border border-slate-700 backdrop-blur-sm transition cursor-pointer"
                 title="گۆڕینی کامێرا"
               >
                 <RefreshCw className="w-4 h-4" />
@@ -310,7 +310,7 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="px-4 py-2 bg-white text-slate-950 font-bold text-xs rounded-xl shadow flex items-center gap-2"
+                className="px-4 py-2 bg-white text-slate-950 font-bold text-xs rounded-xl shadow flex items-center gap-2 cursor-pointer"
               >
                 <Upload className="w-4 h-4" />
                 هەڵبژاردنی وێنە لە مۆبایل/فایل
@@ -331,13 +331,13 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
         />
 
         {/* Action Controls & Result Display */}
-        <div className="p-4 sm:p-5 space-y-4 bg-slate-900">
+        <div className="p-4 sm:p-5 space-y-4 bg-white">
           {/* Detected Plate Result Card */}
           {detectedResult && (
-            <div className="p-3.5 bg-slate-950 border border-slate-700 rounded-2xl space-y-2">
+            <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   تابلۆی دۆزراوە:
                 </span>
                 <span className="text-[10px] text-slate-500 font-mono">
@@ -345,22 +345,22 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
                 </span>
               </div>
 
-              <div className="flex items-center justify-between bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+              <div className="flex items-center justify-between bg-white p-2.5 rounded-xl border border-slate-200">
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 bg-white text-slate-950 font-mono font-bold text-sm rounded-lg shadow-sm">
+                  <span className="px-3 py-1 bg-slate-900 text-white font-mono font-bold text-sm rounded-lg shadow-2xs">
                     {detectedResult.plateNumber}
                   </span>
                   {detectedResult.city === 'علوج' ? (
-                    <span className="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-lg text-xs font-bold">
+                    <span className="px-2 py-0.5 bg-amber-50 text-amber-800 border border-amber-300 rounded-lg text-xs font-bold">
                       ⚠️ علوج (بێ تابلۆ)
                     </span>
                   ) : (
                     <div className="flex items-center gap-1.5">
-                      <span className="text-xs text-slate-200 font-bold">
+                      <span className="text-xs text-slate-900 font-bold">
                         {detectedResult.city}
                       </span>
                       {['سلێمانی', 'هەولێر', 'هەڵەبجە', 'دهۆک'].some((c) => detectedResult.city?.includes(c)) && (
-                        <span className="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded text-[9px] font-mono font-bold">
+                        <span className="px-1.5 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded text-[9px] font-mono font-bold">
                           KR
                         </span>
                       )}
@@ -369,8 +369,8 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
                 </div>
 
                 {detectedResult.make && (
-                  <span className="text-[11px] text-slate-400">
-                    مارکە: <strong className="text-white">{detectedResult.make}</strong>
+                  <span className="text-[11px] text-slate-500">
+                    مارکە: <strong className="text-slate-900">{detectedResult.make}</strong>
                   </span>
                 )}
               </div>
@@ -379,12 +379,12 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
 
           {/* Analysis Error Notice */}
           {analysisError && (
-            <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-300 flex items-center justify-between">
+            <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-center justify-between">
               <span>{analysisError}</span>
               <button
                 type="button"
                 onClick={handleRetake}
-                className="text-white hover:underline text-xs"
+                className="text-rose-900 font-bold hover:underline text-xs cursor-pointer"
               >
                 دووبارە هەوڵبدەرەوە
               </button>
@@ -398,7 +398,7 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
                 <button
                   type="button"
                   onClick={handleCapturePhoto}
-                  className="flex-1 py-3 bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-2 cursor-pointer"
+                  className="flex-1 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Camera className="w-4 h-4" />
                   وێنە بگرە و سکان بکە (Snap)
@@ -407,7 +407,7 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="px-3.5 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs rounded-xl border border-slate-700 transition flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs rounded-xl border border-slate-200 transition flex items-center gap-1.5 cursor-pointer"
                   title="بارکردنی وێنە"
                 >
                   <Upload className="w-4 h-4" />
@@ -419,16 +419,16 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
                 <button
                   type="button"
                   onClick={handleConfirmAndApply}
-                  className="flex-1 py-3 bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-2 cursor-pointer"
+                  className="flex-1 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                   پڕکردنەوەی خودکاریی خانەکان
                 </button>
 
                 <button
                   type="button"
                   onClick={handleRetake}
-                  className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs rounded-xl border border-slate-700 transition cursor-pointer"
+                  className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs rounded-xl border border-slate-200 transition cursor-pointer"
                 >
                   وێنەی نوێ
                 </button>
@@ -437,7 +437,7 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
               <button
                 type="button"
                 onClick={handleRetake}
-                className="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl transition cursor-pointer"
+                className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition cursor-pointer"
               >
                 گرتنەوەی وێنە (Retake)
               </button>
@@ -445,7 +445,7 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
           </div>
 
           {/* Quick Demo Test Presets */}
-          <div className="border-t border-slate-800/80 pt-3">
+          <div className="border-t border-slate-100 pt-3">
             <span className="text-[10px] text-slate-500 block mb-1.5 font-medium">
               تێستی خێرا (کلیک بکە بۆ تاقیکردنەوەی دەستبەجێ):
             </span>
@@ -453,53 +453,53 @@ export const PlateCameraModal: React.FC<PlateCameraModalProps> = ({
               <button
                 type="button"
                 onClick={() => handleApplyPreset('21 H 11111', 'سلێمانی', 'Toyota', 'Camry')}
-                className="px-2.5 py-1 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white rounded-lg text-[10px] font-mono transition cursor-pointer flex items-center gap-1"
+                className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 rounded-lg text-[10px] font-mono transition cursor-pointer flex items-center gap-1"
               >
                 <span>21 H 11111 (سلێمانی)</span>
-                <span className="text-[8px] bg-emerald-500/20 text-emerald-400 px-1 rounded font-bold">KR</span>
+                <span className="text-[8px] bg-emerald-100 text-emerald-800 px-1 rounded font-bold">KR</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset('22 A 45892', 'هەولێر', 'Toyota', 'Land Cruiser')}
-                className="px-2.5 py-1 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white rounded-lg text-[10px] font-mono transition cursor-pointer flex items-center gap-1"
+                className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 rounded-lg text-[10px] font-mono transition cursor-pointer flex items-center gap-1"
               >
                 <span>22 A 45892 (هەولێر)</span>
-                <span className="text-[8px] bg-emerald-500/20 text-emerald-400 px-1 rounded font-bold">KR</span>
+                <span className="text-[8px] bg-emerald-100 text-emerald-800 px-1 rounded font-bold">KR</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset('23 A 55120', 'هەڵەبجە', 'Kia', 'Sportage')}
-                className="px-2.5 py-1 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white rounded-lg text-[10px] font-mono transition cursor-pointer flex items-center gap-1"
+                className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 rounded-lg text-[10px] font-mono transition cursor-pointer flex items-center gap-1"
               >
                 <span>23 A 55120 (هەڵەبجە)</span>
-                <span className="text-[8px] bg-emerald-500/20 text-emerald-400 px-1 rounded font-bold">KR</span>
+                <span className="text-[8px] bg-emerald-100 text-emerald-800 px-1 rounded font-bold">KR</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset('24 B 77123', 'دهۆک', 'Hyundai', 'Tucson')}
-                className="px-2.5 py-1 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white rounded-lg text-[10px] font-mono transition cursor-pointer flex items-center gap-1"
+                className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 rounded-lg text-[10px] font-mono transition cursor-pointer flex items-center gap-1"
               >
                 <span>24 B 77123 (دهۆک)</span>
-                <span className="text-[8px] bg-emerald-500/20 text-emerald-400 px-1 rounded font-bold">KR</span>
+                <span className="text-[8px] bg-emerald-100 text-emerald-800 px-1 rounded font-bold">KR</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset('11 A 90812', 'بەغداد', 'Nissan', 'Sunny')}
-                className="px-2.5 py-1 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white rounded-lg text-[10px] font-mono transition cursor-pointer"
+                className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 rounded-lg text-[10px] font-mono transition cursor-pointer"
               >
                 11 A 90812 (بەغداد)
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset('14 M 33410', 'بەسرە', 'Ford', 'Taurus')}
-                className="px-2.5 py-1 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white rounded-lg text-[10px] font-mono transition cursor-pointer"
+                className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 rounded-lg text-[10px] font-mono transition cursor-pointer"
               >
                 14 M 33410 (بەسرە)
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset('84920', 'علوج', 'Toyota', 'Land Cruiser')}
-                className="px-2.5 py-1 bg-amber-950/40 hover:bg-amber-900/60 border border-amber-600/40 text-amber-300 rounded-lg text-[10px] font-mono transition cursor-pointer"
+                className="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 rounded-lg text-[10px] font-mono transition cursor-pointer"
               >
                 ⚠️ 84920 (علوج)
               </button>

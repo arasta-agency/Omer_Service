@@ -180,33 +180,33 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
     : undefined;
 
   return (
-    <div className="space-y-5 text-right font-kurdish text-slate-200">
+    <div className="space-y-5 text-right font-kurdish text-slate-800">
       {/* Top Banner */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-2xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
           <div>
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Droplet className="w-5 h-5 text-slate-300" />
+            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <Droplet className="w-5 h-5 text-amber-500" />
               ژووری تایبەتمەندییەکانی ڕۆن و لەزگە (Oil Service Specs)
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               هەڵبژاردنی ئۆتۆمبێل، دیاریکردنی وردەکاریی شلە و فلتەرەکان، و هەژمارکردنی خۆکاری وادەی داهاتوو.
             </p>
           </div>
 
           {/* Vehicle Selector */}
-          <div className="flex items-center gap-2 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800 text-xs">
-            <Car className="w-4 h-4 text-slate-400" />
+          <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 text-xs shadow-2xs">
+            <Car className="w-4 h-4 text-slate-500" />
             <select
               value={selectedWOId}
               onChange={(e) => setSelectedWOId(e.target.value)}
-              className="bg-transparent text-xs font-semibold text-white focus:outline-none cursor-pointer"
+              className="bg-transparent text-xs font-semibold text-slate-900 focus:outline-none cursor-pointer"
             >
               {workOrders.map((wo) => {
                 const v = vehicles.find((veh) => veh.id === wo.vehicleId);
                 const c = customers.find((cust) => cust.id === wo.customerId);
                 return (
-                  <option key={wo.id} value={wo.id} className="bg-slate-900 text-white">
+                  <option key={wo.id} value={wo.id} className="bg-white text-slate-900">
                     {v?.licensePlate} — {v?.make} {v?.model} ({c?.fullName})
                   </option>
                 );
@@ -216,8 +216,8 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
         </div>
 
         {savedNotification && (
-          <div className="p-3 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-slate-300" />
+          <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 flex items-center gap-2 shadow-2xs">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
             <span>سەرجەم زانیارییەکانی ڕۆنگۆڕین بە سەرکەوتوویی پاشەکەوت کران.</span>
           </div>
         )}
@@ -227,57 +227,57 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
           {/* Left: Odometer, Oil Brand & Viscosity (7 cols) */}
           <div className="lg:col-span-7 space-y-4">
             {/* Odometer Section */}
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-              <label className="text-xs font-bold text-slate-300 block">
+            <div className="bg-slate-50/80 p-4 rounded-xl border border-slate-200 space-y-3 shadow-2xs">
+              <label className="text-xs font-bold text-slate-900 block">
                 ١. کیلۆمەتری ئێستا (Current Odometer):
               </label>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <span className="text-[11px] text-slate-400 block mb-1">کیلۆمەتری سەر داشبۆرد</span>
+                  <span className="text-[11px] text-slate-600 font-medium block mb-1">کیلۆمەتری سەر داشبۆرد</span>
                   <input
                     type="number"
                     value={currentOdo}
                     onChange={(e) => setCurrentOdo(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white focus:outline-none focus:border-slate-600"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 focus:outline-none shadow-2xs transition"
                   />
                 </div>
 
                 <div>
-                  <span className="text-[11px] text-slate-400 block mb-1">بەرواری سێرڤس</span>
+                  <span className="text-[11px] text-slate-600 font-medium block mb-1">بەرواری سێرڤس</span>
                   <input
                     type="date"
                     value={serviceDate}
                     onChange={(e) => setServiceDate(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-slate-600"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 focus:outline-none shadow-2xs transition"
                   />
                 </div>
               </div>
             </div>
 
             {/* Oil Specs */}
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-              <label className="text-xs font-bold text-slate-300 block">
+            <div className="bg-slate-50/80 p-4 rounded-xl border border-slate-200 space-y-3 shadow-2xs">
+              <label className="text-xs font-bold text-slate-900 block">
                 ٢. مارکەی ڕۆن و پلەی خەستی (Oil Specs):
               </label>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <span className="text-[11px] text-slate-400 block mb-1">مارکەی ڕۆن (Brand)</span>
+                  <span className="text-[11px] text-slate-600 font-medium block mb-1">مارکەی ڕۆن (Brand)</span>
                   <input
                     type="text"
                     value={brand}
                     onChange={(e) => setBrand(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-slate-600"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none shadow-2xs transition"
                   />
                 </div>
 
                 <div>
-                  <span className="text-[11px] text-slate-400 block mb-1">جۆری ڕۆن (Category)</span>
+                  <span className="text-[11px] text-slate-600 font-medium block mb-1">جۆری ڕۆن (Category)</span>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value as OilCategory)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-slate-600"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none shadow-2xs transition cursor-pointer"
                   >
                     <option value="Full Synthetic">فول سینسەتیک (Full Synthetic)</option>
                     <option value="Semi-Synthetic">سیمی سینسەتیک (Semi-Synthetic)</option>
@@ -288,17 +288,17 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
 
               {/* Viscosity Buttons */}
               <div>
-                <span className="text-[11px] text-slate-400 block mb-1.5">پلەی خەستی (Viscosity):</span>
+                <span className="text-[11px] text-slate-600 font-medium block mb-1.5">پلەی خەستی (Viscosity):</span>
                 <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5">
                   {(['5W-30', '0W-20', '5W-20', '5W-40', '10W-40', '20W-50', '0W-16'] as OilViscosity[]).map((v) => (
                     <button
                       key={v}
                       type="button"
                       onClick={() => setViscosity(v)}
-                      className={`py-1.5 text-xs font-mono font-semibold rounded-lg border transition ${
+                      className={`py-1.5 text-xs font-mono font-semibold rounded-lg border transition cursor-pointer ${
                         viscosity === v
-                          ? 'bg-slate-200 text-slate-950 border-white'
-                          : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
+                          ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                          : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
                       }`}
                     >
                       {v}
@@ -310,42 +310,42 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
               {/* Volume & Filter Part Number */}
               <div className="grid grid-cols-2 gap-3 pt-1">
                 <div>
-                  <span className="text-[11px] text-slate-400 block mb-1">بڕی ڕۆن (لیتر)</span>
+                  <span className="text-[11px] text-slate-600 font-medium block mb-1">بڕی ڕۆن (لیتر)</span>
                   <input
                     type="number"
                     step="0.5"
                     value={volumeLiters}
                     onChange={(e) => setVolumeLiters(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs font-mono font-bold text-white text-center"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-1.5 text-xs font-mono font-bold text-slate-900 text-center shadow-2xs"
                   />
                 </div>
 
                 <div>
-                  <span className="text-[11px] text-slate-400 block mb-1">کۆدی فلتەری ڕۆن</span>
+                  <span className="text-[11px] text-slate-600 font-medium block mb-1">کۆدی فلتەری ڕۆن</span>
                   <input
                     type="text"
                     value={filterPartNo}
                     onChange={(e) => setFilterPartNo(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-900 shadow-2xs"
                   />
                 </div>
               </div>
             </div>
 
             {/* Aux Fluids & Filters */}
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-              <label className="text-xs font-bold text-slate-300 block">
+            <div className="bg-slate-50/80 p-4 rounded-xl border border-slate-200 space-y-3 shadow-2xs">
+              <label className="text-xs font-bold text-slate-900 block">
                 ٣. پشکنینی شلە و فلتەرە لاوەکییەکان (Fluid &amp; Filter Checks):
               </label>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                 {/* Brake Fluid */}
-                <div className="p-2 bg-slate-900 rounded-lg border border-slate-800">
-                  <span className="text-[10px] text-slate-400 block mb-1">ڕۆنی برێک</span>
+                <div className="p-2 bg-white rounded-lg border border-slate-200 shadow-2xs">
+                  <span className="text-[10px] text-slate-500 font-medium block mb-1">ڕۆنی برێک</span>
                   <select
                     value={auxFluids.brakeFluid}
                     onChange={(e) => setAuxFluids({ ...auxFluids, brakeFluid: e.target.value as FluidCondition })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded p-1 text-[11px] text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded p-1 text-[11px] text-slate-900 cursor-pointer"
                   >
                     <option value="ok">باشە ✓</option>
                     <option value="low">کەمە</option>
@@ -355,12 +355,12 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
                 </div>
 
                 {/* Coolant */}
-                <div className="p-2 bg-slate-900 rounded-lg border border-slate-800">
-                  <span className="text-[10px] text-slate-400 block mb-1">ئاوی ڕادێتەر</span>
+                <div className="p-2 bg-white rounded-lg border border-slate-200 shadow-2xs">
+                  <span className="text-[10px] text-slate-500 font-medium block mb-1">ئاوی ڕادێتەر</span>
                   <select
                     value={auxFluids.coolant}
                     onChange={(e) => setAuxFluids({ ...auxFluids, coolant: e.target.value as FluidCondition })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded p-1 text-[11px] text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded p-1 text-[11px] text-slate-900 cursor-pointer"
                   >
                     <option value="ok">باشە ✓</option>
                     <option value="low">کەمە</option>
@@ -370,12 +370,12 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
                 </div>
 
                 {/* Air Filter */}
-                <div className="p-2 bg-slate-900 rounded-lg border border-slate-800">
-                  <span className="text-[10px] text-slate-400 block mb-1">فلتەری هەوا</span>
+                <div className="p-2 bg-white rounded-lg border border-slate-200 shadow-2xs">
+                  <span className="text-[10px] text-slate-500 font-medium block mb-1">فلتەری هەوا</span>
                   <select
                     value={auxFilters.airFilter}
                     onChange={(e) => setAuxFilters({ ...auxFilters, airFilter: e.target.value as FilterCondition })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded p-1 text-[11px] text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded p-1 text-[11px] text-slate-900 cursor-pointer"
                   >
                     <option value="clean">پاکە ✓</option>
                     <option value="dirty">پیسە</option>
@@ -384,12 +384,12 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
                 </div>
 
                 {/* Cabin Filter */}
-                <div className="p-2 bg-slate-900 rounded-lg border border-slate-800">
-                  <span className="text-[10px] text-slate-400 block mb-1">فلتەری تەبرید</span>
+                <div className="p-2 bg-white rounded-lg border border-slate-200 shadow-2xs">
+                  <span className="text-[10px] text-slate-500 font-medium block mb-1">فلتەری تەبرید</span>
                   <select
                     value={auxFilters.cabinFilter}
                     onChange={(e) => setAuxFilters({ ...auxFilters, cabinFilter: e.target.value as FilterCondition })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded p-1 text-[11px] text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded p-1 text-[11px] text-slate-900 cursor-pointer"
                   >
                     <option value="clean">پاکە ✓</option>
                     <option value="dirty">پیسە</option>
@@ -403,18 +403,18 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
           {/* Right: Return Calculation Engine & Actions (5 cols) */}
           <div className="lg:col-span-5 space-y-4">
             {/* Return Calculation Engine */}
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-4">
-              <label className="text-xs font-bold text-slate-300 block">
+            <div className="bg-slate-50/80 p-4 rounded-xl border border-slate-200 space-y-4 shadow-2xs">
+              <label className="text-xs font-bold text-slate-900 block">
                 ٤. هەژمارکردنی خۆکاری وادەی داهاتوو:
               </label>
 
               <div className="space-y-3 text-xs">
                 <div>
-                  <span className="text-[11px] text-slate-400 block mb-1">ماوەی گۆڕینی داهاتوو (کم)</span>
+                  <span className="text-[11px] text-slate-600 font-medium block mb-1">ماوەی گۆڕینی داهاتوو (کم)</span>
                   <select
                     value={intervalKm}
                     onChange={(e) => setIntervalKm(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 shadow-2xs cursor-pointer"
                   >
                     <option value={5000}>٥,٠٠٠ کم</option>
                     <option value={8000}>٨,٠٠٠ کم</option>
@@ -424,11 +424,11 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
                 </div>
 
                 <div>
-                  <span className="text-[11px] text-slate-400 block mb-1">ماوە بە مانگ</span>
+                  <span className="text-[11px] text-slate-600 font-medium block mb-1">ماوە بە مانگ</span>
                   <select
                     value={intervalMonths}
                     onChange={(e) => setIntervalMonths(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 shadow-2xs cursor-pointer"
                   >
                     <option value={3}>٣ مانگ</option>
                     <option value={6}>٦ مانگ</option>
@@ -438,29 +438,29 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
               </div>
 
               {/* Calculated Results Box */}
-              <div className="bg-slate-900 p-3.5 rounded-xl border border-slate-800 space-y-2 text-xs">
+              <div className="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2 text-xs shadow-2xs">
                 <div className="flex justify-between items-center">
-                  <span className="text-slate-400">کیلۆمەتری داهاتوو:</span>
-                  <span className="font-mono font-bold text-white text-sm">
+                  <span className="text-slate-600">کیلۆمەتری داهاتوو:</span>
+                  <span className="font-mono font-bold text-slate-900 text-sm">
                     {nextServiceOdo.toLocaleString()} KM
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-slate-400">بەرواری داهاتوو:</span>
-                  <span className="font-mono font-semibold text-slate-200">
+                  <span className="text-slate-600">بەرواری داهاتوو:</span>
+                  <span className="font-mono font-semibold text-slate-800">
                     {calculatedNextDate}
                   </span>
                 </div>
               </div>
 
               {/* Total Service Cost Field */}
-              <div className="bg-slate-900 p-3.5 rounded-xl border border-emerald-500/30 space-y-2.5">
+              <div className="bg-white p-3.5 rounded-xl border border-emerald-200 space-y-2.5 shadow-2xs">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    <Coins className="w-4 h-4 text-emerald-400" />
-                    <span className="text-xs font-bold text-white">تێچووی ڕۆن و سەرجەم خەرجییەکان (IQD):</span>
+                    <Coins className="w-4 h-4 text-emerald-600" />
+                    <span className="text-xs font-bold text-slate-900">تێچووی ڕۆن و سەرجەم خەرجییەکان (IQD):</span>
                   </div>
-                  <span className="text-[10px] text-emerald-400 font-mono">دینار</span>
+                  <span className="text-[10px] text-emerald-700 font-mono">دینار</span>
                 </div>
 
                 <div className="relative">
@@ -471,9 +471,9 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
                     placeholder="بۆ نموونە: 45000"
                     value={totalCostIQD}
                     onChange={(e) => setTotalCostIQD(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 focus:border-emerald-500 rounded-xl pr-3 pl-12 py-2 text-xs font-mono font-bold text-emerald-400 placeholder-slate-600 focus:outline-none"
+                    className="w-full bg-slate-50 border border-slate-300 focus:border-emerald-600 rounded-xl pr-3 pl-12 py-2 text-xs font-mono font-bold text-emerald-800 placeholder-slate-400 focus:outline-none shadow-2xs"
                   />
-                  <span className="absolute left-2.5 top-2 text-[10px] text-slate-500 font-mono font-bold">
+                  <span className="absolute left-2.5 top-2 text-[10px] text-slate-400 font-mono font-bold">
                     دینار
                   </span>
                 </div>
@@ -484,10 +484,10 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
                       key={preset}
                       type="button"
                       onClick={() => setTotalCostIQD(preset.toString())}
-                      className={`px-2 py-0.5 text-[11px] font-mono rounded border transition ${
+                      className={`px-2 py-0.5 text-[11px] font-mono rounded border transition cursor-pointer ${
                         totalCostIQD === preset.toString()
-                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-bold'
-                          : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                          ? 'bg-emerald-600 text-white border-emerald-600 font-bold shadow-xs'
+                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
                       {preset.toLocaleString()}
@@ -497,7 +497,7 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
                     <button
                       type="button"
                       onClick={() => setTotalCostIQD('')}
-                      className="text-[10px] text-slate-500 hover:text-rose-400 px-1 py-0.5 transition"
+                      className="text-[10px] text-slate-400 hover:text-rose-600 px-1 py-0.5 transition cursor-pointer"
                       title="سڕینەوە"
                     >
                       ✕
@@ -510,19 +510,19 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
                   placeholder="تێبینی خەرجی (بۆ نموونە: ڕۆن + فلتەر + کرێی دەست)"
                   value={costNotes}
                   onChange={(e) => setCostNotes(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-300 placeholder-slate-600 focus:outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 focus:border-slate-400 rounded-lg px-2.5 py-1 text-xs text-slate-800 placeholder-slate-400 focus:outline-none shadow-2xs"
                 />
               </div>
 
               {/* Notes */}
               <div>
-                <span className="text-[11px] text-slate-400 block mb-1">تێبینی وەستا</span>
+                <span className="text-[11px] text-slate-600 font-medium block mb-1">تێبینی وەستا</span>
                 <textarea
                   rows={2}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="هەر تێبینییەکی تایبەت بە بزوێنەر بنووسە..."
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-slate-600"
+                  className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl p-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none shadow-2xs"
                 />
               </div>
 
@@ -531,7 +531,7 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
                 <button
                   type="button"
                   onClick={() => handleSave(true)}
-                  className="w-full py-3 bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow"
+                  className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-xs cursor-pointer"
                 >
                   <Printer className="w-4 h-4" />
                   پاشەکەوتکردن و چاپکردنی لەزگە
@@ -540,9 +540,9 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
                 <button
                   type="button"
                   onClick={() => handleSave(false)}
-                  className="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition flex items-center justify-center gap-1.5"
+                  className="w-full py-2.5 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl border border-slate-300 shadow-2xs transition flex items-center justify-center gap-1.5 cursor-pointer"
                 >
-                  <Save className="w-4 h-4" />
+                  <Save className="w-4 h-4 text-slate-500" />
                   تەنها پاشەکەوتکردن
                 </button>
               </div>

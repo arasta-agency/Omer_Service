@@ -35,17 +35,19 @@ export const CustomerApprovalPortalModal: React.FC<CustomerApprovalPortalModalPr
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto text-right font-kurdish">
-      <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto text-right font-kurdish">
+      <div className="relative w-full max-w-2xl bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800 bg-slate-950/70">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-slate-50">
           <div className="flex items-center gap-2.5">
-            <Smartphone className="w-5 h-5 text-slate-300" />
+            <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-800 shadow-2xs">
+              <Smartphone className="w-4 h-4 text-slate-700" />
+            </div>
             <div>
-              <h2 className="text-sm font-bold text-white">
+              <h2 className="text-sm font-bold text-slate-900">
                 پۆرتاڵی پەسەندکردنی کڕیار لەسەر مۆبایل
               </h2>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-slate-500">
                 {vehicle.licensePlate} • {customer.fullName}
               </p>
             </div>
@@ -53,7 +55,7 @@ export const CustomerApprovalPortalModal: React.FC<CustomerApprovalPortalModalPr
 
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition"
+            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -61,9 +63,9 @@ export const CustomerApprovalPortalModal: React.FC<CustomerApprovalPortalModalPr
 
         {/* Content */}
         <div className="p-5 overflow-y-auto space-y-4">
-          <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1 text-xs">
-            <span className="font-bold text-white block">سڵاو، {customer.fullName}</span>
-            <p className="text-slate-400 text-[11px]">
+          <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1 text-xs">
+            <span className="font-bold text-slate-900 block">سڵاو، {customer.fullName}</span>
+            <p className="text-slate-600 text-[11px]">
               پشکنینی ئۆتۆمبێلەکەت ({vehicle.make} {vehicle.model} - {vehicle.licensePlate}) ئەنجامدرا. دەتوانیت هەر بڕگەیەک پەسەند بکەیت:
             </p>
           </div>
@@ -73,13 +75,13 @@ export const CustomerApprovalPortalModal: React.FC<CustomerApprovalPortalModalPr
             {wo.dviItems.map((item) => (
               <div
                 key={item.id}
-                className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between text-xs"
+                className="bg-white p-3.5 rounded-xl border border-slate-200 flex items-center justify-between text-xs hover:border-slate-300 transition"
               >
                 <div className="space-y-0.5">
-                  <span className="font-bold text-white">{item.title}</span>
-                  <p className="text-[11px] text-slate-400">{item.description}</p>
+                  <span className="font-bold text-slate-900">{item.title}</span>
+                  <p className="text-[11px] text-slate-500">{item.description}</p>
                   {item.estimatedCost && item.estimatedCost > 0 && (
-                    <span className="text-[10px] text-slate-300 font-mono">
+                    <span className="text-[10px] text-slate-700 font-mono font-medium">
                       تێچوو: {item.estimatedCost.toLocaleString()} IQD
                     </span>
                   )}
@@ -89,10 +91,10 @@ export const CustomerApprovalPortalModal: React.FC<CustomerApprovalPortalModalPr
                   <button
                     type="button"
                     onClick={() => customerToggleDVIItem(wo.id, item.id, true)}
-                    className={`px-3 py-1 rounded-lg text-xs transition ${
+                    className={`px-3 py-1 rounded-lg text-xs transition cursor-pointer ${
                       item.customerApproved
-                        ? 'bg-slate-800 border border-slate-600 text-white font-bold'
-                        : 'bg-slate-900 border border-slate-800 text-slate-500'
+                        ? 'bg-emerald-600 text-white font-bold shadow-2xs'
+                        : 'bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200'
                     }`}
                   >
                     پەسەندە ✓
@@ -101,10 +103,10 @@ export const CustomerApprovalPortalModal: React.FC<CustomerApprovalPortalModalPr
                   <button
                     type="button"
                     onClick={() => customerToggleDVIItem(wo.id, item.id, false)}
-                    className={`px-3 py-1 rounded-lg text-xs transition ${
+                    className={`px-3 py-1 rounded-lg text-xs transition cursor-pointer ${
                       !item.customerApproved
-                        ? 'bg-slate-800 border border-slate-600 text-white font-bold'
-                        : 'bg-slate-900 border border-slate-800 text-slate-500'
+                        ? 'bg-slate-900 text-white font-bold shadow-2xs'
+                        : 'bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200'
                     }`}
                   >
                     پێویست ناکات ✕
@@ -115,14 +117,14 @@ export const CustomerApprovalPortalModal: React.FC<CustomerApprovalPortalModalPr
           </div>
 
           {hasSubmitted ? (
-            <div className="p-3 bg-slate-800 rounded-xl border border-slate-700 text-center text-xs text-white">
+            <div className="p-3.5 bg-emerald-50 rounded-xl border border-emerald-200 text-center text-xs text-emerald-800 font-medium">
               ✓ وەڵامەکەت بە سەرکەوتوویی بۆ وەستاکان نێردرا و دەستیان بە کار کرد.
             </div>
           ) : (
             <button
               type="button"
               onClick={handleFinalSubmit}
-              className="w-full py-3 bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs rounded-xl transition shadow"
+              className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition shadow-xs cursor-pointer"
             >
               ناردنی ڕەزامەندی کۆتایی بۆ سێرڤس
             </button>

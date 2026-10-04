@@ -131,31 +131,31 @@ export const TireAlignmentModule: React.FC<TireAlignmentModuleProps> = ({
   ];
 
   return (
-    <div className="space-y-5 text-right font-kurdish text-slate-200">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+    <div className="space-y-5 text-right font-kurdish text-slate-800">
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-2xs space-y-4">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
           <div>
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Disc className="w-5 h-5 text-slate-300" />
+            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <Disc className="w-5 h-5 text-slate-700" />
               پشکنینی قووڵایی نەخشەی تایە و میزان (Tire &amp; Alignment)
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               پشکنینی ٣ خاڵی قووڵایی نەخشە (ناوەوە، ناوەڕاست، دەرەوە)، پەستانی هەوا (PSI)، و دیاریکردنی جۆری خواردن.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
-            <Car className="w-4 h-4 text-slate-400" />
-            <span className="font-mono text-white font-bold">
+          <div className="flex items-center gap-2 text-xs bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 shadow-2xs">
+            <Car className="w-4 h-4 text-slate-500" />
+            <span className="font-mono text-slate-900 font-bold">
               {currentVehicle?.licensePlate || 'ئۆتۆمبێلی دیاریکراو'}
             </span>
           </div>
         </div>
 
         {savedAlert && (
-          <div className="p-3 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-slate-300" />
+          <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 flex items-center gap-2 shadow-2xs">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
             <span>پشکنینی تایە و میزان بە سەرکەوتوویی پاشەکەوت کرا.</span>
           </div>
         )}
@@ -172,19 +172,23 @@ export const TireAlignmentModule: React.FC<TireAlignmentModuleProps> = ({
                 key={pos}
                 type="button"
                 onClick={() => setActiveTab(pos)}
-                className={`p-3 rounded-xl border text-right transition ${
+                className={`p-3 rounded-xl border text-right transition cursor-pointer ${
                   isSelected
-                    ? 'bg-slate-800 border-slate-500 text-white font-bold shadow'
-                    : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                    ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-xs'
+                    : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xs font-bold">{POSITION_LABELS[pos].title}</span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-900 border border-slate-800">
+                  <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded border ${
+                    isSelected
+                      ? 'bg-slate-800 border-slate-700 text-slate-200'
+                      : 'bg-white border-slate-200 text-slate-700'
+                  }`}>
                     {minDepth} mm
                   </span>
                 </div>
-                <div className="text-[11px] text-slate-500 font-mono">
+                <div className={`text-[11px] font-mono ${isSelected ? 'text-slate-300' : 'text-slate-500'}`}>
                   هەوا: {tire.actualPsiAfter} PSI
                 </div>
               </button>
@@ -195,52 +199,52 @@ export const TireAlignmentModule: React.FC<TireAlignmentModuleProps> = ({
         {/* Active Tire Inspection Panel */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 pt-2">
           {/* 3-Point Depth & PSI Measurements (7 cols) */}
-          <div className="lg:col-span-7 space-y-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-              <span className="text-xs font-bold text-white">
+          <div className="lg:col-span-7 space-y-4 bg-slate-50/80 p-4 rounded-xl border border-slate-200 shadow-2xs">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+              <span className="text-xs font-bold text-slate-900">
                 پشکنینی {POSITION_LABELS[activeTab].title}
               </span>
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-slate-500 font-medium">
                 قووڵایی پێوانەکراو بە میلیمەتر (mm)
               </span>
             </div>
 
             {/* 3 Point Depth Check */}
             <div>
-              <span className="text-[11px] text-slate-400 block mb-2 font-medium">
+              <span className="text-[11px] text-slate-600 block mb-2 font-medium">
                 ١. پێوانەکردنی قووڵایی نەخشەی تایە لە ٣ خاڵدا:
               </span>
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <span className="text-[10px] text-slate-400 block mb-1">لای ناوەوە (Inner)</span>
+                  <span className="text-[10px] text-slate-500 block mb-1">لای ناوەوە (Inner)</span>
                   <input
                     type="number"
                     step="0.1"
                     value={activeTire.innerMm}
                     onChange={(e) => handleTireValueChange(activeTab, 'innerMm', e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white text-center focus:outline-none focus:border-slate-600"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 text-center focus:outline-none shadow-2xs"
                   />
                 </div>
 
                 <div>
-                  <span className="text-[10px] text-slate-400 block mb-1">ناوەڕاست (Center)</span>
+                  <span className="text-[10px] text-slate-500 block mb-1">ناوەڕاست (Center)</span>
                   <input
                     type="number"
                     step="0.1"
                     value={activeTire.centerMm}
                     onChange={(e) => handleTireValueChange(activeTab, 'centerMm', e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white text-center focus:outline-none focus:border-slate-600"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 text-center focus:outline-none shadow-2xs"
                   />
                 </div>
 
                 <div>
-                  <span className="text-[10px] text-slate-400 block mb-1">لای دەرەوە (Outer)</span>
+                  <span className="text-[10px] text-slate-500 block mb-1">لای دەرەوە (Outer)</span>
                   <input
                     type="number"
                     step="0.1"
                     value={activeTire.outerMm}
                     onChange={(e) => handleTireValueChange(activeTab, 'outerMm', e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white text-center focus:outline-none focus:border-slate-600"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 text-center focus:outline-none shadow-2xs"
                   />
                 </div>
               </div>
@@ -248,27 +252,27 @@ export const TireAlignmentModule: React.FC<TireAlignmentModuleProps> = ({
 
             {/* Pressure PSI */}
             <div className="pt-2">
-              <span className="text-[11px] text-slate-400 block mb-2 font-medium">
+              <span className="text-[11px] text-slate-600 block mb-2 font-medium">
                 ٢. پەستانی هەوای تایە (Tire Pressure):
               </span>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <span className="text-[10px] text-slate-400 block mb-1">هەوای سەرەتا (Before PSI)</span>
+                  <span className="text-[10px] text-slate-500 block mb-1">هەوای سەرەتا (Before PSI)</span>
                   <input
                     type="number"
                     value={activeTire.actualPsiBefore}
                     onChange={(e) => handleTireValueChange(activeTab, 'actualPsiBefore', Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white text-center focus:outline-none focus:border-slate-600"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 text-center focus:outline-none shadow-2xs"
                   />
                 </div>
 
                 <div>
-                  <span className="text-[10px] text-slate-400 block mb-1">هەوای ڕێکخراو (After PSI)</span>
+                  <span className="text-[10px] text-slate-500 block mb-1">هەوای ڕێکخراو (After PSI)</span>
                   <input
                     type="number"
                     value={activeTire.actualPsiAfter}
                     onChange={(e) => handleTireValueChange(activeTab, 'actualPsiAfter', Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white text-center focus:outline-none focus:border-slate-600"
+                    className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 text-center focus:outline-none shadow-2xs"
                   />
                 </div>
               </div>
@@ -276,7 +280,7 @@ export const TireAlignmentModule: React.FC<TireAlignmentModuleProps> = ({
 
             {/* Wear Pattern Diagnostics */}
             <div className="pt-2">
-              <span className="text-[11px] text-slate-400 block mb-2 font-medium">
+              <span className="text-[11px] text-slate-600 block mb-2 font-medium">
                 ٣. شێوازی خواردنی تایە (Wear Pattern):
               </span>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -287,14 +291,14 @@ export const TireAlignmentModule: React.FC<TireAlignmentModuleProps> = ({
                       key={pattern.id}
                       type="button"
                       onClick={() => handleTireValueChange(activeTab, 'wearPattern', pattern.id)}
-                      className={`p-2.5 rounded-xl border text-right text-xs transition ${
+                      className={`p-2.5 rounded-xl border text-right text-xs transition cursor-pointer ${
                         isSelected
-                          ? 'bg-slate-800 border-slate-500 text-white font-bold'
-                          : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                          ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-xs'
+                          : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100 hover:text-slate-900 shadow-2xs'
                       }`}
                     >
                       <span className="block font-medium">{pattern.label}</span>
-                      <span className="text-[10px] text-slate-500 block mt-0.5">{pattern.desc}</span>
+                      <span className={`text-[10px] block mt-0.5 ${isSelected ? 'text-slate-300' : 'text-slate-500'}`}>{pattern.desc}</span>
                     </button>
                   );
                 })}
@@ -303,8 +307,8 @@ export const TireAlignmentModule: React.FC<TireAlignmentModuleProps> = ({
           </div>
 
           {/* Recommended Actions & Save (5 cols) */}
-          <div className="lg:col-span-5 space-y-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
-            <span className="text-xs font-bold text-white block border-b border-slate-800 pb-2">
+          <div className="lg:col-span-5 space-y-4 bg-slate-50/80 p-4 rounded-xl border border-slate-200 shadow-2xs">
+            <span className="text-xs font-bold text-slate-900 block border-b border-slate-200 pb-2">
               ٤. کارە پێشنیارکراوەکان (Recommendations):
             </span>
 
@@ -314,15 +318,15 @@ export const TireAlignmentModule: React.FC<TireAlignmentModuleProps> = ({
                 return (
                   <label
                     key={action.id}
-                    className="flex items-center gap-2 p-2.5 bg-slate-900 rounded-xl border border-slate-800 text-xs cursor-pointer hover:border-slate-700 transition"
+                    className="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-slate-200 text-xs cursor-pointer hover:border-slate-300 transition shadow-2xs"
                   >
                     <input
                       type="checkbox"
                       checked={isChecked}
                       onChange={() => toggleAction(action.id)}
-                      className="rounded bg-slate-950 border-slate-700 text-white"
+                      className="rounded border-slate-300 text-slate-900 focus:ring-slate-900"
                     />
-                    <span className={isChecked ? 'text-white font-medium' : 'text-slate-400'}>
+                    <span className={isChecked ? 'text-slate-900 font-bold' : 'text-slate-600'}>
                       {action.label}
                     </span>
                   </label>
@@ -331,20 +335,20 @@ export const TireAlignmentModule: React.FC<TireAlignmentModuleProps> = ({
             </div>
 
             <div>
-              <span className="text-[11px] text-slate-400 block mb-1">تێبینییەکانی وەستا</span>
+              <span className="text-[11px] text-slate-600 font-medium block mb-1">تێبینییەکانی وەستا</span>
               <textarea
                 rows={3}
                 value={techNotes}
                 onChange={(e) => setTechNotes(e.target.value)}
                 placeholder="تێبینی لەسەر میزان و دۆخی تایەکان..."
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-slate-600"
+                className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl p-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none shadow-2xs"
               />
             </div>
 
             <button
               type="button"
               onClick={handleSave}
-              className="w-full py-3 bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow"
+              className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2 cursor-pointer"
             >
               <Save className="w-4 h-4" />
               پاشەکەوتکردنی پشکنینی تایە

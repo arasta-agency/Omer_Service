@@ -69,20 +69,20 @@ export const NewIntakeModal: React.FC<NewIntakeModalProps> = ({ onClose, onSucce
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto text-right font-kurdish">
-      <div className="relative w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto text-right font-kurdish">
+      <div className="relative w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden text-slate-900">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800 bg-slate-950/70">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-slate-50/80">
           <div className="flex items-center gap-2.5">
-            <ClipboardList className="w-5 h-5 text-slate-300" />
+            <ClipboardList className="w-5 h-5 text-slate-700" />
             <div>
-              <h2 className="text-sm font-bold text-white">وەرگرتنی ئۆتۆمبێل و کارتی سێرڤس</h2>
-              <p className="text-[11px] text-slate-400">تۆمارکردنی خزمەتگوزاری بۆ ئۆتۆمبێل</p>
+              <h2 className="text-sm font-bold text-slate-900">وەرگرتنی ئۆتۆمبێل و کارتی سێرڤس</h2>
+              <p className="text-[11px] text-slate-500">تۆمارکردنی خزمەتگوزاری بۆ ئۆتۆمبێل</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition"
+            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -93,11 +93,11 @@ export const NewIntakeModal: React.FC<NewIntakeModalProps> = ({ onClose, onSucce
           {/* Customer & Vehicle selection */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-slate-300 block mb-1">هەڵبژاردنی کڕیار</label>
+              <label className="text-slate-700 font-medium block mb-1">هەڵبژاردنی کڕیار</label>
               <select
                 value={selectedCustomerId}
                 onChange={(e) => handleCustomerChange(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-slate-800"
               >
                 {customers.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -108,11 +108,11 @@ export const NewIntakeModal: React.FC<NewIntakeModalProps> = ({ onClose, onSucce
             </div>
 
             <div>
-              <label className="text-slate-300 block mb-1">ئۆتۆمبێلی کڕیار</label>
+              <label className="text-slate-700 font-medium block mb-1">ئۆتۆمبێلی کڕیار</label>
               <select
                 value={selectedVehicleId}
                 onChange={(e) => setSelectedVehicleId(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white font-mono"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 font-mono focus:outline-none focus:border-slate-800"
               >
                 {customerVehicles.map((v) => (
                   <option key={v.id} value={v.id}>
@@ -125,7 +125,7 @@ export const NewIntakeModal: React.FC<NewIntakeModalProps> = ({ onClose, onSucce
 
           {/* Priority */}
           <div>
-            <label className="text-slate-300 block mb-1">پێشینەی کار (Priority)</label>
+            <label className="text-slate-700 font-medium block mb-1">پێشینەی کار (Priority)</label>
             <div className="flex gap-2">
               {[
                 { key: 'routine' as const, label: 'ئاسایی' },
@@ -136,10 +136,10 @@ export const NewIntakeModal: React.FC<NewIntakeModalProps> = ({ onClose, onSucce
                   key={key}
                   type="button"
                   onClick={() => setPriority(key)}
-                  className={`flex-1 py-1.5 rounded-xl border text-xs transition ${
+                  className={`flex-1 py-1.5 rounded-xl border text-xs transition cursor-pointer ${
                     priority === key
-                      ? 'bg-slate-800 border-slate-500 text-white font-bold'
-                      : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                      ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-xs'
+                      : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >
                   {label}
@@ -150,7 +150,7 @@ export const NewIntakeModal: React.FC<NewIntakeModalProps> = ({ onClose, onSucce
 
           {/* Services Checklist */}
           <div>
-            <label className="text-slate-300 block mb-1.5">خزمەتگوزارییە داواکراوەکان:</label>
+            <label className="text-slate-700 font-medium block mb-1.5">خزمەتگوزارییە داواکراوەکان:</label>
             <div className="grid grid-cols-2 gap-2">
               {serviceOptions.map((svc) => {
                 const isSelected = services.includes(svc);
@@ -159,10 +159,10 @@ export const NewIntakeModal: React.FC<NewIntakeModalProps> = ({ onClose, onSucce
                     key={svc}
                     type="button"
                     onClick={() => toggleService(svc)}
-                    className={`p-2.5 rounded-xl border text-right transition ${
+                    className={`p-2.5 rounded-xl border text-right transition cursor-pointer ${
                       isSelected
-                        ? 'bg-slate-800 border-slate-500 text-white font-medium'
-                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                        ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-xs'
+                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                     }`}
                   >
                     {svc}
@@ -174,13 +174,13 @@ export const NewIntakeModal: React.FC<NewIntakeModalProps> = ({ onClose, onSucce
 
           {/* Concerns */}
           <div>
-            <label className="text-slate-300 block mb-1">تێبینی خاوەن ئۆتۆمبێل</label>
+            <label className="text-slate-700 font-medium block mb-1">تێبینی خاوەن ئۆتۆمبێل</label>
             <textarea
               rows={2}
               value={concerns}
               onChange={(e) => setConcerns(e.target.value)}
               placeholder="تێبینی بنووسە..."
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-800"
             />
           </div>
 
@@ -188,14 +188,14 @@ export const NewIntakeModal: React.FC<NewIntakeModalProps> = ({ onClose, onSucce
           <div className="pt-2 flex gap-2">
             <button
               type="submit"
-              className="flex-1 py-3 bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs rounded-xl transition shadow"
+              className="flex-1 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer"
             >
               تۆمارکردنی کارتی سێرڤس
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-xl transition"
+              className="px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs rounded-xl transition cursor-pointer"
             >
               داخستن
             </button>

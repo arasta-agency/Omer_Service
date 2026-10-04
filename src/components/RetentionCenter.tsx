@@ -89,28 +89,28 @@ export const RetentionCenter: React.FC = () => {
     .replace(/{{shop_phone}}/g, SHOP_INFO.phone);
 
   return (
-    <div className="space-y-5 text-right font-kurdish text-slate-200">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+    <div className="space-y-5 text-right font-kurdish text-slate-800">
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-2xs space-y-4">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
           <div>
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Bell className="w-5 h-5 text-slate-300" />
+            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <Bell className="w-5 h-5 text-slate-700" />
               بیرخەرەوە و داڕشتەی پەیامە کوردییەکان
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               ناردنی پەیامی کوردی ئامادەکراو بە واتسئەپ بۆ ئاگادارکردنەوەی خاوەن ئۆتۆمبێلەکان لە کاتی گۆڕینی ڕۆن.
             </p>
           </div>
 
-          <div className="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+          <div className="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-200 text-xs shadow-2xs">
             <button
               type="button"
               onClick={() => setActiveTab('queue')}
-              className={`px-3 py-1.5 rounded-lg transition ${
+              className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${
                 activeTab === 'queue'
-                  ? 'bg-slate-800 text-white font-bold'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-slate-900 text-white font-bold shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               سەرەی بیرخەرەوەکان ({reminders.length})
@@ -119,10 +119,10 @@ export const RetentionCenter: React.FC = () => {
             <button
               type="button"
               onClick={() => setActiveTab('templates')}
-              className={`px-3 py-1.5 rounded-lg transition ${
+              className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${
                 activeTab === 'templates'
-                  ? 'bg-slate-800 text-white font-bold'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-slate-900 text-white font-bold shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               داڕشتەی پەیامەکان
@@ -132,19 +132,19 @@ export const RetentionCenter: React.FC = () => {
 
         {/* Counter Bar */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
-            <span className="text-slate-400">کاتی بەسەرچووە:</span>
-            <strong className="text-white font-mono text-sm">{overdueCount} ئۆتۆمبێل</strong>
+          <div className="bg-rose-50 p-3 rounded-xl border border-rose-200 flex items-center justify-between shadow-2xs">
+            <span className="text-rose-800 font-medium">کاتی بەسەرچووە:</span>
+            <strong className="text-rose-900 font-mono text-sm font-bold">{overdueCount} ئۆتۆمبێل</strong>
           </div>
 
-          <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
-            <span className="text-slate-400">نزیکبووەتەوە (١٤ ڕۆژ):</span>
-            <strong className="text-white font-mono text-sm">{upcomingCount} ئۆتۆمبێل</strong>
+          <div className="bg-amber-50 p-3 rounded-xl border border-amber-200 flex items-center justify-between shadow-2xs">
+            <span className="text-amber-800 font-medium">نزیکبووەتەوە (١٤ ڕۆژ):</span>
+            <strong className="text-amber-900 font-mono text-sm font-bold">{upcomingCount} ئۆتۆمبێل</strong>
           </div>
 
-          <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
-            <span className="text-slate-400">پەیام نێردراوە:</span>
-            <strong className="text-white font-mono text-sm">{sentCount} دانە</strong>
+          <div className="bg-emerald-50 p-3 rounded-xl border border-emerald-200 flex items-center justify-between shadow-2xs">
+            <span className="text-emerald-800 font-medium">پەیام نێردراوە:</span>
+            <strong className="text-emerald-900 font-mono text-sm font-bold">{sentCount} دانە</strong>
           </div>
         </div>
 
@@ -155,10 +155,10 @@ export const RetentionCenter: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setFilterType('all')}
-                className={`px-3 py-1 text-xs rounded-lg border transition ${
+                className={`px-3 py-1 text-xs rounded-lg border transition cursor-pointer ${
                   filterType === 'all'
-                    ? 'bg-slate-800 text-white border-slate-600 font-bold'
-                    : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                    ? 'bg-slate-900 text-white border-slate-900 font-bold shadow-xs'
+                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
                 }`}
               >
                 هەمووی ({reminders.length})
@@ -167,10 +167,10 @@ export const RetentionCenter: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setFilterType('overdue')}
-                className={`px-3 py-1 text-xs rounded-lg border transition ${
+                className={`px-3 py-1 text-xs rounded-lg border transition cursor-pointer ${
                   filterType === 'overdue'
-                    ? 'bg-slate-800 text-white border-slate-600 font-bold'
-                    : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                    ? 'bg-slate-900 text-white border-slate-900 font-bold shadow-xs'
+                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
                 }`}
               >
                 بەسەرچووەکان ({overdueCount})
@@ -179,10 +179,10 @@ export const RetentionCenter: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setFilterType('upcoming')}
-                className={`px-3 py-1 text-xs rounded-lg border transition ${
+                className={`px-3 py-1 text-xs rounded-lg border transition cursor-pointer ${
                   filterType === 'upcoming'
-                    ? 'bg-slate-800 text-white border-slate-600 font-bold'
-                    : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                    ? 'bg-slate-900 text-white border-slate-900 font-bold shadow-xs'
+                    : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
                 }`}
               >
                 نزیکبووەوەکان ({upcomingCount})
@@ -197,24 +197,24 @@ export const RetentionCenter: React.FC = () => {
                 return (
                   <div
                     key={rem.id}
-                    className="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                    className="bg-slate-50/80 p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-2xs"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono font-bold text-white bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                        <span className="font-mono font-bold text-slate-900 bg-white px-2 py-0.5 rounded border border-slate-200">
                           {veh?.licensePlate}
                         </span>
-                        <strong className="text-white">{cust?.fullName}</strong>
+                        <strong className="text-slate-900">{cust?.fullName}</strong>
                         <span className="text-slate-500 font-mono" dir="ltr">({cust?.phone})</span>
                       </div>
-                      <p className="text-[11px] text-slate-300 leading-relaxed">{rem.renderedMessage}</p>
+                      <p className="text-[11px] text-slate-600 leading-relaxed">{rem.renderedMessage}</p>
                     </div>
 
                     <div className="flex items-center gap-2 self-end sm:self-center">
                       <button
                         type="button"
                         onClick={() => handleDispatch(rem)}
-                        className="px-3.5 py-2 bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs rounded-lg transition flex items-center gap-1.5 shadow"
+                        className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition flex items-center gap-1.5 shadow-xs cursor-pointer"
                       >
                         <Send className="w-3.5 h-3.5" />
                         ناردن بە واتسئەپ
@@ -231,16 +231,16 @@ export const RetentionCenter: React.FC = () => {
         {activeTab === 'templates' && (
           <div className="space-y-4">
             {savedAlert && (
-              <div className="p-3 bg-slate-800 border border-slate-700 rounded-xl text-xs text-white flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-slate-300" />
+              <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 flex items-center gap-2 shadow-2xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                 <span>داڕشتەی پەیامە کوردییەکە بە سەرکەوتوویی پاشەکەوت کرا.</span>
               </div>
             )}
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-              {/* Left Column: Kurdish Templates List (4 cols) */}
+              {/* Left Column: Kurdish Templates List (5 cols) */}
               <div className="lg:col-span-5 space-y-2">
-                <span className="text-xs font-bold text-slate-300 block mb-1">
+                <span className="text-xs font-bold text-slate-900 block mb-1">
                   داڕشتە کوردییە ئامادەکراوەکان:
                 </span>
 
@@ -251,14 +251,14 @@ export const RetentionCenter: React.FC = () => {
                       key={t.id}
                       type="button"
                       onClick={() => handleSelectTemplate(t)}
-                      className={`w-full p-3 rounded-xl border text-right transition text-xs block ${
+                      className={`w-full p-3 rounded-xl border text-right transition text-xs block cursor-pointer ${
                         isSelected
-                          ? 'bg-slate-800 border-slate-500 text-white font-bold shadow'
-                          : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                          ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-xs'
+                          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                       }`}
                     >
-                      <span className="font-bold text-white block text-xs mb-1">{t.name}</span>
-                      <span className="text-[11px] text-slate-400 block">
+                      <span className={`font-bold block text-xs mb-1 ${isSelected ? 'text-white' : 'text-slate-900'}`}>{t.name}</span>
+                      <span className={`text-[11px] block ${isSelected ? 'text-slate-300' : 'text-slate-500'}`}>
                         جۆر: {TEMPLATE_TYPE_LABELS[t.type] || t.type}
                       </span>
                     </button>
@@ -267,19 +267,19 @@ export const RetentionCenter: React.FC = () => {
               </div>
 
               {/* Right Column: Template Editor & Live Preview (7 cols) */}
-              <div className="lg:col-span-7 bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                  <span className="text-xs font-bold text-white">
+              <div className="lg:col-span-7 bg-slate-50/80 p-4 rounded-xl border border-slate-200 space-y-4 shadow-2xs">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                  <span className="text-xs font-bold text-slate-900">
                     دەستکاریکردنی دەقی پەیام:
                   </span>
-                  <span className="text-[11px] text-slate-400">
+                  <span className="text-[11px] text-slate-500 font-medium">
                     {TEMPLATE_TYPE_LABELS[selectedTemplate?.type || ''] || ''}
                   </span>
                 </div>
 
                 {/* Quick Variable Tag Insertion Buttons */}
                 <div>
-                  <span className="text-[11px] text-slate-400 block mb-1.5 font-medium">
+                  <span className="text-[11px] text-slate-600 block mb-1.5 font-medium">
                     کلیک بکە بۆ دانانی گۆڕاوەکان لەناو دەقەکە:
                   </span>
                   <div className="flex flex-wrap gap-1.5">
@@ -298,7 +298,7 @@ export const RetentionCenter: React.FC = () => {
                         key={tag}
                         type="button"
                         onClick={() => handleInsertTag(tag)}
-                        className="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white rounded-lg text-[10px] font-mono transition"
+                        className="px-2 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 rounded-lg text-[10px] font-mono transition cursor-pointer shadow-2xs"
                       >
                         {label}
                       </button>
@@ -311,16 +311,16 @@ export const RetentionCenter: React.FC = () => {
                   rows={6}
                   value={templateBody}
                   onChange={(e) => setTemplateBody(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white leading-relaxed focus:outline-none focus:border-slate-600"
+                  className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl p-3 text-xs text-slate-900 leading-relaxed focus:outline-none shadow-2xs"
                 />
 
                 {/* Live Preview Box */}
-                <div className="bg-slate-900 p-3.5 rounded-xl border border-slate-800 space-y-1.5">
-                  <span className="text-[11px] font-bold text-slate-300 block flex items-center gap-1.5">
-                    <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
+                <div className="bg-white p-3.5 rounded-xl border border-slate-200 space-y-1.5 shadow-2xs">
+                  <span className="text-[11px] font-bold text-slate-800 block flex items-center gap-1.5">
+                    <MessageSquare className="w-3.5 h-3.5 text-slate-500" />
                     پێشبینینی پەیامەکە کاتێک دەگاتە واتسئەپی کڕیار:
                   </span>
-                  <div className="p-3 bg-slate-950 rounded-lg border border-slate-800/80 text-xs text-slate-200 leading-relaxed font-mono">
+                  <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs text-slate-800 leading-relaxed font-mono">
                     {previewRendered}
                   </div>
                 </div>
@@ -329,7 +329,7 @@ export const RetentionCenter: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleSaveTemplate}
-                  className="w-full py-2.5 bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs rounded-xl transition shadow"
+                  className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition cursor-pointer"
                 >
                   پاشەکەوتکردنی داڕشتەی کوردی
                 </button>

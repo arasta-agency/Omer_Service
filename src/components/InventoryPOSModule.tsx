@@ -70,29 +70,29 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
   };
 
   return (
-    <div className="space-y-5 text-right font-kurdish text-slate-200">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+    <div className="space-y-5 text-right font-kurdish text-slate-800">
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-2xs space-y-4">
+        {/* Header & Tabs */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
           <div>
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Boxes className="w-5 h-5 text-slate-300" />
+            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <Boxes className="w-5 h-5 text-slate-700" />
               کۆگا و پسوولەی فرۆشتن (Inventory &amp; POS)
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               چاودێری بڕی بەرمیلەکانی ڕۆن، فلتەر، تایە، و دەرکردنی پسوولەی چاپکراو بۆ کڕیار.
             </p>
           </div>
 
           {/* Sub Navigation */}
-          <div className="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+          <div className="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-200 text-xs shadow-2xs">
             <button
               type="button"
               onClick={() => setActiveTab('inventory')}
-              className={`px-3 py-1.5 rounded-lg transition ${
+              className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${
                 activeTab === 'inventory'
-                  ? 'bg-slate-800 text-white font-bold'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-slate-900 text-white font-bold shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               کۆگای کەلوپەل
@@ -101,10 +101,10 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
             <button
               type="button"
               onClick={() => setActiveTab('pos')}
-              className={`px-3 py-1.5 rounded-lg transition ${
+              className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${
                 activeTab === 'pos'
-                  ? 'bg-slate-800 text-white font-bold'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-slate-900 text-white font-bold shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               دەرکردنی پسوولە (POS)
@@ -113,10 +113,10 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
             <button
               type="button"
               onClick={() => setActiveTab('invoices')}
-              className={`px-3 py-1.5 rounded-lg transition ${
+              className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${
                 activeTab === 'invoices'
-                  ? 'bg-slate-800 text-white font-bold'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-slate-900 text-white font-bold shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               مێژووی پسوولەکان ({invoices.length})
@@ -129,7 +129,7 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
           <div className="space-y-4">
             {/* Bulk Oil Drums Overview */}
             <div className="space-y-2">
-              <span className="text-xs font-bold text-slate-300 block">
+              <span className="text-xs font-bold text-slate-900 block">
                 بەرمیلەکانی ڕۆنی کۆگا (قەبارەی ٢٠٨ لیتر):
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -139,27 +139,27 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
                   return (
                     <div
                       key={drum.id}
-                      className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2 text-xs"
+                      className="bg-slate-50/80 p-3.5 rounded-xl border border-slate-200 space-y-2 text-xs shadow-2xs"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-bold text-white text-xs">{drum.name}</span>
-                        <span className="font-mono text-slate-300 font-bold">{currentLiters} L</span>
+                        <span className="font-bold text-slate-900 text-xs">{drum.name}</span>
+                        <span className="font-mono text-slate-900 font-bold">{currentLiters} L</span>
                       </div>
 
                       {/* Clean Progress Bar */}
-                      <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
+                      <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
                         <div
-                          className="bg-slate-300 h-full rounded-full transition-all"
+                          className="bg-slate-800 h-full rounded-full transition-all"
                           style={{ width: `${Math.min(pct, 100)}%` }}
                         />
                       </div>
 
-                      <div className="flex items-center justify-between text-[11px] text-slate-400">
-                        <span>خەستی: <strong className="text-slate-200 font-mono">{drum.viscosity}</strong></span>
+                      <div className="flex items-center justify-between text-[11px] text-slate-500">
+                        <span>خەستی: <strong className="text-slate-800 font-mono">{drum.viscosity}</strong></span>
                         <button
                           type="button"
                           onClick={() => restockInventoryItem(drum.id, 50)}
-                          className="text-[10px] text-slate-300 hover:text-white underline"
+                          className="text-[10px] text-slate-700 hover:text-slate-950 font-medium underline cursor-pointer"
                         >
                           +٥٠ لیتر زیادبکە
                         </button>
@@ -174,13 +174,13 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
             <div className="space-y-3 pt-2">
               <div className="flex flex-col sm:flex-row gap-2 justify-between items-center">
                 <div className="relative w-full sm:w-72">
-                  <Search className="w-4 h-4 text-slate-500 absolute right-3 top-2.5" />
+                  <Search className="w-4 h-4 text-slate-400 absolute right-3 top-2.5" />
                   <input
                     type="text"
                     placeholder="گەڕان لە کۆگا..."
                     value={searchInv}
                     onChange={(e) => setSearchInv(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl pr-9 pl-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 focus:border-slate-800 rounded-xl pr-9 pl-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none shadow-2xs"
                   />
                 </div>
 
@@ -190,10 +190,10 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
                       key={cat}
                       type="button"
                       onClick={() => setInvCategory(cat)}
-                      className={`px-3 py-1 text-xs rounded-lg border transition ${
+                      className={`px-3 py-1 text-xs rounded-lg border transition cursor-pointer ${
                         invCategory === cat
-                          ? 'bg-slate-800 text-white border-slate-600 font-bold'
-                          : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                          ? 'bg-slate-900 text-white border-slate-900 font-bold shadow-xs'
+                          : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
                       }`}
                     >
                       {CATEGORY_NAMES[cat]}
@@ -206,7 +206,7 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-right border-collapse">
                   <thead>
-                    <tr className="border-b border-slate-800 text-slate-400">
+                    <tr className="border-b border-slate-200 text-slate-500">
                       <th className="py-2 px-3">کۆد (SKU)</th>
                       <th className="py-2 px-3">ناوی کەلوپەل</th>
                       <th className="py-2 px-3">مارکە</th>
@@ -217,21 +217,21 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
                   </thead>
                   <tbody>
                     {filteredInventory.map((item) => (
-                      <tr key={item.id} className="border-b border-slate-800/60 hover:bg-slate-950/40">
-                        <td className="py-2.5 px-3 font-mono text-slate-400">{item.sku}</td>
-                        <td className="py-2.5 px-3 font-semibold text-white">{item.name}</td>
-                        <td className="py-2.5 px-3 text-slate-400">{item.brand}</td>
-                        <td className="py-2.5 px-3 font-mono font-bold text-white">
+                      <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-50">
+                        <td className="py-2.5 px-3 font-mono text-slate-500">{item.sku}</td>
+                        <td className="py-2.5 px-3 font-semibold text-slate-900">{item.name}</td>
+                        <td className="py-2.5 px-3 text-slate-600">{item.brand}</td>
+                        <td className="py-2.5 px-3 font-mono font-bold text-slate-900">
                           {item.stockQuantity} {item.unit}
                         </td>
-                        <td className="py-2.5 px-3 font-mono text-slate-200">
+                        <td className="py-2.5 px-3 font-mono text-slate-800">
                           {item.retailPrice.toLocaleString()} IQD
                         </td>
                         <td className="py-2.5 px-3">
                           <button
                             type="button"
                             onClick={() => restockInventoryItem(item.id, 10)}
-                            className="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] transition"
+                            className="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 border border-slate-200 rounded text-[11px] transition cursor-pointer"
                           >
                             + زیادکردن
                           </button>
@@ -249,17 +249,17 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
         {activeTab === 'pos' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
             {/* Left: Select Work Order & Payment (7 cols) */}
-            <div className="lg:col-span-7 space-y-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
-              <span className="text-xs font-bold text-white block border-b border-slate-800 pb-2">
+            <div className="lg:col-span-7 space-y-4 bg-slate-50/80 p-4 rounded-xl border border-slate-200 shadow-2xs">
+              <span className="text-xs font-bold text-slate-900 block border-b border-slate-200 pb-2">
                 دەرکردنی پسوولەی فرۆشتن بۆ ئۆتۆمبێل:
               </span>
 
               <div>
-                <span className="text-[11px] text-slate-400 block mb-1">ئۆتۆمبێل هەڵبژێرە:</span>
+                <span className="text-[11px] text-slate-600 font-medium block mb-1">ئۆتۆمبێل هەڵبژێرە:</span>
                 <select
                   value={selectedWOForInvoice}
                   onChange={(e) => setSelectedWOForInvoice(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"
+                  className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 shadow-2xs cursor-pointer"
                 >
                   {workOrders.map((wo) => {
                     const v = vehicles.find((veh) => veh.id === wo.vehicleId);
@@ -274,15 +274,15 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
               </div>
 
               <div>
-                <span className="text-[11px] text-slate-400 block mb-1.5">شێوازی پارەدان:</span>
+                <span className="text-[11px] text-slate-600 font-medium block mb-1.5">شێوازی پارەدان:</span>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <button
                     type="button"
                     onClick={() => setPaymentMethod('cash')}
-                    className={`py-2 rounded-xl border transition ${
+                    className={`py-2 rounded-xl border transition cursor-pointer ${
                       paymentMethod === 'cash'
-                        ? 'bg-slate-800 text-white border-slate-600 font-bold'
-                        : 'bg-slate-900 text-slate-400 border-slate-800'
+                        ? 'bg-slate-900 text-white border-slate-900 font-bold shadow-xs'
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
                     }`}
                   >
                     نەختینە (کاش / Cash)
@@ -291,10 +291,10 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
                   <button
                     type="button"
                     onClick={() => setPaymentMethod('card')}
-                    className={`py-2 rounded-xl border transition ${
+                    className={`py-2 rounded-xl border transition cursor-pointer ${
                       paymentMethod === 'card'
-                        ? 'bg-slate-800 text-white border-slate-600 font-bold'
-                        : 'bg-slate-900 text-slate-400 border-slate-800'
+                        ? 'bg-slate-900 text-white border-slate-900 font-bold shadow-xs'
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
                     }`}
                   >
                     کارتی بانکی (FIB / FastPay)
@@ -305,7 +305,7 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
               <button
                 type="button"
                 onClick={handleCheckout}
-                className="w-full py-3 bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow"
+                className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Receipt className="w-4 h-4" />
                 دروستکردنی پسوولە و بڕین لە مەخزەن
@@ -313,14 +313,14 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
             </div>
 
             {/* Right: Printable Invoice Preview (5 cols) */}
-            <div className="lg:col-span-5 bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                <span className="text-xs font-bold text-white">پسوولەی دەرچوو</span>
+            <div className="lg:col-span-5 bg-slate-50/80 p-4 rounded-xl border border-slate-200 space-y-3 shadow-2xs">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                <span className="text-xs font-bold text-slate-900">پسوولەی دەرچوو</span>
                 {generatedInvoice && (
                   <button
                     type="button"
                     onClick={handlePrintReceipt}
-                    className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-white text-xs rounded-lg transition flex items-center gap-1"
+                    className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-white text-xs rounded-lg transition flex items-center gap-1 cursor-pointer shadow-xs"
                   >
                     <Printer className="w-3.5 h-3.5" />
                     چاپکردن
@@ -329,10 +329,10 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
               </div>
 
               {generatedInvoice ? (
-                <div className="bg-white text-slate-950 p-4 rounded-xl border border-slate-300 text-xs space-y-3 font-mono">
-                  <div className="text-center border-b border-slate-300 pb-2 flex flex-col items-center">
+                <div className="bg-white text-slate-950 p-4 rounded-xl border border-slate-300 text-xs space-y-3 font-mono shadow-2xs">
+                  <div className="text-center border-b border-slate-200 pb-2 flex flex-col items-center">
                     <OmarOilLogo variant="red" size="sm" />
-                    <strong className="block text-sm font-bold font-kurdish mt-1">{SHOP_INFO.name}</strong>
+                    <strong className="block text-sm font-bold font-kurdish mt-1 text-slate-900">{SHOP_INFO.name}</strong>
                     <span className="text-[10px] text-slate-600 font-kurdish">سێرڤسی ئۆتۆمبێل و ڕۆنگۆڕین</span>
                     <span className="block text-[10px] text-slate-500 font-mono">{generatedInvoice.invoiceNumber}</span>
                   </div>
@@ -346,7 +346,7 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
                     ))}
                   </div>
 
-                  <div className="border-t border-slate-300 pt-2 flex justify-between font-bold text-sm">
+                  <div className="border-t border-slate-200 pt-2 flex justify-between font-bold text-sm text-slate-900">
                     <span>کۆی گشتی:</span>
                     <span>{generatedInvoice.totalAmount.toLocaleString()} IQD</span>
                   </div>
@@ -366,18 +366,18 @@ export const InventoryPOSModule: React.FC<InventoryPOSModuleProps> = ({
             {invoices.map((inv) => (
               <div
                 key={inv.id}
-                className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between text-xs"
+                className="bg-slate-50/80 p-3.5 rounded-xl border border-slate-200 flex items-center justify-between text-xs shadow-2xs"
               >
                 <div>
-                  <span className="font-mono font-bold text-white">{inv.invoiceNumber}</span>
-                  <span className="text-slate-400 mr-2 font-mono">({inv.date})</span>
+                  <span className="font-mono font-bold text-slate-900">{inv.invoiceNumber}</span>
+                  <span className="text-slate-500 mr-2 font-mono">({inv.date})</span>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="font-mono font-bold text-white text-sm">
+                  <span className="font-mono font-bold text-slate-900 text-sm">
                     {inv.totalAmount.toLocaleString()} IQD
                   </span>
-                  <span className="text-[11px] text-slate-400">
+                  <span className="text-[11px] text-slate-600">
                     {inv.paymentMethod === 'cash' ? 'کاش' : 'کارت'}
                   </span>
                 </div>
