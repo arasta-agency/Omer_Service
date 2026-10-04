@@ -699,10 +699,11 @@ export const SystemPresentationModal: React.FC<SystemPresentationModalProps> = (
         <div
           ref={printDeckRef}
           style={{
-            position: 'absolute',
+            position: 'fixed',
             left: '-9999px',
-            top: 0,
+            top: '-9999px',
             width: '1200px',
+            opacity: 0,
             pointerEvents: 'none',
           }}
         >

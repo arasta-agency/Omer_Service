@@ -54,25 +54,22 @@ export const Header: React.FC<HeaderProps> = ({
   ];
 
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-40 text-right shadow-xs">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+    <header className="bg-white border-b border-slate-200 sticky top-0 z-40 text-right shadow-xs w-full max-w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 w-full max-w-full overflow-hidden">
         {/* Main Header Bar */}
-        <div className="flex items-center justify-between h-14 border-b border-slate-100 gap-2">
+        <div className="flex items-center justify-between h-14 border-b border-slate-100 gap-1.5 sm:gap-2 w-full max-w-full overflow-hidden">
           {/* Logo & Brand - Refined, compact & contained */}
-          <div className="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-xl border border-slate-200 shrink-0 max-w-[170px] xs:max-w-[200px] sm:max-w-none shadow-2xs">
+          <div className="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-xl border border-slate-200 shrink min-w-0 max-w-[130px] xs:max-w-[180px] sm:max-w-none shadow-2xs">
             <div className="flex items-center justify-center shrink-0">
               <OmarOilLogo variant="red" size="xs" />
             </div>
             <div className="min-w-0 leading-tight">
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 min-w-0">
                 <span className="text-[11px] sm:text-xs font-bold text-slate-900 tracking-tight truncate">
                   عومەر ئۆیڵ
                 </span>
-                <span className="text-[9px] text-slate-500 font-sans font-medium truncate hidden xs:inline">
-                  (Omar Oil)
-                </span>
               </div>
-              <p className="text-[8px] sm:text-[8.5px] text-slate-500 truncate">
+              <p className="text-[8px] sm:text-[8.5px] text-slate-500 truncate hidden xs:block">
                 ڕانیە • شەقامی سەرەکی
               </p>
             </div>
@@ -95,14 +92,14 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
 
-          {/* Right: Role Switcher & Actions */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Right: Role Switcher & Primary Action */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <div className="flex items-center bg-slate-50 px-1.5 sm:px-2 py-1 rounded-lg border border-slate-200 text-xs shrink-0">
               <UserCheck className="w-3.5 h-3.5 text-slate-500 ml-1 hidden sm:inline" />
               <select
                 value={userRole}
                 onChange={(e) => setUserRole(e.target.value as UserRole)}
-                className="bg-transparent text-[11px] sm:text-xs text-slate-700 font-medium focus:outline-none cursor-pointer max-w-[95px] xs:max-w-[130px] sm:max-w-none truncate"
+                className="bg-transparent text-[10px] sm:text-xs text-slate-700 font-medium focus:outline-none cursor-pointer max-w-[72px] xs:max-w-[100px] sm:max-w-none truncate"
               >
                 {ROLES.map((r) => (
                   <option key={r.key} value={r.key} className="bg-white text-slate-900">
@@ -116,19 +113,18 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 onClick={onOpenPresentation}
-                className="px-2 sm:px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-[11px] sm:text-xs rounded-lg transition flex items-center gap-1 sm:gap-1.5 cursor-pointer shadow-2xs shrink-0"
+                className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs rounded-lg transition cursor-pointer shadow-2xs shrink-0"
                 title="پرێزێنتەیشنی سیستەم بە کوردی سۆرانی و داگرتنی وەک PDF"
               >
                 <FileText className="w-3.5 h-3.5 text-rose-600 shrink-0" />
-                <span className="hidden sm:inline">پرێزێنتەیشن (PDF)</span>
-                <span className="sm:hidden">PDF</span>
+                <span>پرێزێنتەیشن (PDF)</span>
               </button>
             )}
 
             <button
               type="button"
               onClick={() => setCurrentTab('fast_oil')}
-              className="px-2.5 sm:px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-[11px] sm:text-xs rounded-lg transition flex items-center gap-1 sm:gap-1.5 cursor-pointer shadow-2xs shrink-0"
+              className="px-2.5 sm:px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-[11px] sm:text-xs rounded-lg transition flex items-center gap-1.5 cursor-pointer shadow-2xs shrink-0"
             >
               <Droplet className="w-3.5 h-3.5 text-white shrink-0" />
               <span className="whitespace-nowrap">پشکنینی نوێ</span>
@@ -137,7 +133,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Navigation Tabs Bar - Smooth horizontal scroll on mobile */}
-        <nav className="flex space-x-1 space-x-reverse overflow-x-auto py-1.5 scrollbar-none items-center justify-between flex-nowrap shrink-0 touch-pan-x">
+        <nav className="flex space-x-1 space-x-reverse overflow-x-auto py-1.5 scrollbar-none items-center justify-between flex-nowrap shrink-0 touch-pan-x w-full max-w-full">
           <div className="flex space-x-1 space-x-reverse flex-nowrap shrink-0">
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
