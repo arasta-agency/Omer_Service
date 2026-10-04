@@ -55,11 +55,11 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-40 text-right shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         {/* Main Header Bar */}
-        <div className="flex items-center justify-between h-14 border-b border-slate-100">
+        <div className="flex items-center justify-between h-14 border-b border-slate-100 gap-2">
           {/* Logo & Brand - Refined, compact & contained */}
-          <div className="flex items-center gap-2 bg-slate-50 px-2 py-1 rounded-xl border border-slate-200 shrink-0 max-w-[200px] sm:max-w-none shadow-xs">
+          <div className="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-xl border border-slate-200 shrink-0 max-w-[170px] xs:max-w-[200px] sm:max-w-none shadow-2xs">
             <div className="flex items-center justify-center shrink-0">
               <OmarOilLogo variant="red" size="xs" />
             </div>
@@ -68,12 +68,12 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="text-[11px] sm:text-xs font-bold text-slate-900 tracking-tight truncate">
                   عومەر ئۆیڵ
                 </span>
-                <span className="text-[9px] text-slate-500 font-sans font-medium truncate">
+                <span className="text-[9px] text-slate-500 font-sans font-medium truncate hidden xs:inline">
                   (Omar Oil)
                 </span>
               </div>
-              <p className="text-[8.5px] text-slate-500 truncate">
-                ڕانیە • شەقامی سەرەکی سناعە
+              <p className="text-[8px] sm:text-[8.5px] text-slate-500 truncate">
+                ڕانیە • شەقامی سەرەکی
               </p>
             </div>
           </div>
@@ -96,13 +96,13 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Right: Role Switcher & Actions */}
-          <div className="flex items-center gap-2">
-            <div className="flex items-center bg-slate-50 px-2 py-1 rounded-lg border border-slate-200 text-xs">
-              <UserCheck className="w-3.5 h-3.5 text-slate-500 ml-1.5 hidden sm:inline" />
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex items-center bg-slate-50 px-1.5 sm:px-2 py-1 rounded-lg border border-slate-200 text-xs shrink-0">
+              <UserCheck className="w-3.5 h-3.5 text-slate-500 ml-1 hidden sm:inline" />
               <select
                 value={userRole}
                 onChange={(e) => setUserRole(e.target.value as UserRole)}
-                className="bg-transparent text-xs text-slate-700 font-medium focus:outline-none cursor-pointer"
+                className="bg-transparent text-[11px] sm:text-xs text-slate-700 font-medium focus:outline-none cursor-pointer max-w-[95px] xs:max-w-[130px] sm:max-w-none truncate"
               >
                 {ROLES.map((r) => (
                   <option key={r.key} value={r.key} className="bg-white text-slate-900">
@@ -116,10 +116,10 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 onClick={onOpenPresentation}
-                className="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs rounded-lg transition flex items-center gap-1.5 cursor-pointer shadow-xs"
+                className="px-2 sm:px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-[11px] sm:text-xs rounded-lg transition flex items-center gap-1 sm:gap-1.5 cursor-pointer shadow-2xs shrink-0"
                 title="پرێزێنتەیشنی سیستەم بە کوردی سۆرانی و داگرتنی وەک PDF"
               >
-                <FileText className="w-3.5 h-3.5 text-rose-600" />
+                <FileText className="w-3.5 h-3.5 text-rose-600 shrink-0" />
                 <span className="hidden sm:inline">پرێزێنتەیشن (PDF)</span>
                 <span className="sm:hidden">PDF</span>
               </button>
@@ -128,17 +128,17 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={() => setCurrentTab('fast_oil')}
-              className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-lg transition flex items-center gap-1.5 cursor-pointer shadow-xs"
+              className="px-2.5 sm:px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-[11px] sm:text-xs rounded-lg transition flex items-center gap-1 sm:gap-1.5 cursor-pointer shadow-2xs shrink-0"
             >
-              <Droplet className="w-3.5 h-3.5 text-white" />
-              <span>پشکنینی نوێ</span>
+              <Droplet className="w-3.5 h-3.5 text-white shrink-0" />
+              <span className="whitespace-nowrap">پشکنینی نوێ</span>
             </button>
           </div>
         </div>
 
-        {/* Navigation Tabs Bar */}
-        <nav className="flex space-x-1 space-x-reverse overflow-x-auto py-1.5 scrollbar-none items-center justify-between">
-          <div className="flex space-x-1 space-x-reverse">
+        {/* Navigation Tabs Bar - Smooth horizontal scroll on mobile */}
+        <nav className="flex space-x-1 space-x-reverse overflow-x-auto py-1.5 scrollbar-none items-center justify-between flex-nowrap shrink-0 touch-pan-x">
+          <div className="flex space-x-1 space-x-reverse flex-nowrap shrink-0">
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
               const isActive = currentTab === item.id;
@@ -148,9 +148,9 @@ export const Header: React.FC<HeaderProps> = ({
                   key={item.id}
                   type="button"
                   onClick={() => setCurrentTab(item.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg whitespace-nowrap transition cursor-pointer ${
+                  className={`flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs rounded-lg whitespace-nowrap transition cursor-pointer shrink-0 ${
                     isActive
-                      ? 'bg-slate-900 text-white font-bold shadow-xs'
+                      ? 'bg-slate-900 text-white font-bold shadow-2xs'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                 >
@@ -170,7 +170,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={onOpenPresentation}
-              className="hidden md:flex items-center gap-1 px-2.5 py-1 text-xs text-rose-700 hover:text-rose-800 font-bold transition whitespace-nowrap"
+              className="hidden md:flex items-center gap-1 px-2.5 py-1 text-xs text-rose-700 hover:text-rose-800 font-bold transition whitespace-nowrap shrink-0"
             >
               <FileText className="w-3 h-3" />
               <span>پێشکەشکردنی سیستەم (PDF)</span>

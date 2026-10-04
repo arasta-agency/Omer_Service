@@ -489,19 +489,19 @@ export const FastKurdishOilIntake: React.FC = () => {
       )}
 
       {/* Main Single Clean Card */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-7 space-y-6 shadow-xs">
+      <div className="bg-white border border-slate-200 rounded-2xl p-3.5 sm:p-7 space-y-5 sm:space-y-6 shadow-xs">
         {/* Title & Info */}
-        <div className="border-b border-slate-100 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="border-b border-slate-100 pb-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+            <h2 className="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
               <Droplet className="w-5 h-5 text-slate-700" />
               گۆڕینی ڕۆن و پشکنینی خێرا
             </h2>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-[11px] sm:text-xs text-slate-500 mt-1">
               هەڵبژاردنی ئۆتۆمبێل، دیاریکردنی کیلۆمەتر و تۆمارکردنی تێچووی ڕۆن بە شێوازێکی سادە و ڕوون.
             </p>
           </div>
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center justify-between sm:justify-start gap-2.5">
             <button
               type="button"
               onClick={resetForm}
@@ -529,16 +529,16 @@ export const FastKurdishOilIntake: React.FC = () => {
             </label>
             <div className="flex items-center gap-2">
               {/* Type Switcher: Regular vs علوج */}
-              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 w-full sm:w-auto justify-stretch">
                 <button
                   type="button"
                   onClick={() => {
                     setIsAloj(false);
                     if (plateCity === 'علوج') setPlateCity('سلێمانی');
                   }}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                  className={`flex-1 sm:flex-none px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-bold transition cursor-pointer text-center ${
                     !isVehicleAloj
-                      ? 'bg-slate-900 text-white shadow-xs'
+                      ? 'bg-slate-900 text-white shadow-2xs'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
@@ -550,9 +550,9 @@ export const FastKurdishOilIntake: React.FC = () => {
                     setIsAloj(true);
                     setPlateCity('علوج');
                   }}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer flex items-center gap-1 ${
+                  className={`flex-1 sm:flex-none px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1 ${
                     isVehicleAloj
-                      ? 'bg-amber-500 text-slate-950 font-black shadow-xs'
+                      ? 'bg-amber-500 text-slate-950 font-black shadow-2xs'
                       : 'text-slate-600 hover:text-amber-800'
                   }`}
                 >
@@ -563,7 +563,7 @@ export const FastKurdishOilIntake: React.FC = () => {
           </div>
 
           {/* Clean Brand List */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 gap-1.5 sm:gap-2">
             {CAR_BRANDS.map((brand) => {
               const isSelected = selectedBrand.id === brand.id;
               return (
@@ -571,14 +571,14 @@ export const FastKurdishOilIntake: React.FC = () => {
                   key={brand.id}
                   type="button"
                   onClick={() => handleBrandChange(brand)}
-                  className={`px-3 py-2.5 rounded-xl border text-center text-xs transition cursor-pointer ${
+                  className={`px-2.5 sm:px-3 py-2 sm:py-2.5 rounded-xl border text-center text-[11px] sm:text-xs transition cursor-pointer ${
                     isSelected
-                      ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-xs'
+                      ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-2xs'
                       : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 hover:border-slate-300 font-medium'
                   }`}
                 >
-                  <span className="block font-medium">{brand.nameKrd.split(' ')[0]}</span>
-                  <span className={`text-[10px] ${isSelected ? 'text-slate-300' : 'text-slate-400'}`}>
+                  <span className="block font-medium truncate">{brand.nameKrd.split(' ')[0]}</span>
+                  <span className={`text-[9.5px] sm:text-[10px] block truncate ${isSelected ? 'text-slate-300' : 'text-slate-400'}`}>
                     {brand.nameEn}
                   </span>
                 </button>
@@ -674,16 +674,16 @@ export const FastKurdishOilIntake: React.FC = () => {
 
           {/* Special Alooj guidance banner if active */}
           {isVehicleAloj && (
-            <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 flex items-center justify-between gap-2">
+            <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 bg-amber-500 text-slate-950 font-black rounded text-[10px]">
+                <span className="px-2 py-0.5 bg-amber-500 text-slate-950 font-black rounded text-[10px] shrink-0">
                   علوج
                 </span>
                 <span>
-                  ئەم ئۆتۆمبێلە علوجە (بێ تابلۆیە) و فۆرماتی 21 H یان 22 A پەیڕەو ناکات؛ تەنها ژمارەی سەر سەیارەکە بنووسە.
+                  ئەم ئۆتۆمبێلە علوجە (بێ تابلۆیە)؛ تەنها ژمارەی سەر سەیارەکە بنووسە.
                 </span>
               </div>
-              <span className="text-[10px] text-amber-800 font-mono hidden sm:inline">
+              <span className="text-[10px] text-amber-800 font-mono self-start sm:self-auto">
                 {plateNumber ? `تۆمار: علوج ${plateNumber}` : 'تەنها ژمارە'}
               </span>
             </div>
@@ -702,52 +702,50 @@ export const FastKurdishOilIntake: React.FC = () => {
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center gap-1.5">
-                  <span className={`text-[11px] font-medium ${isVehicleAloj ? 'text-amber-800 font-bold' : 'text-slate-600'}`}>
-                    {isVehicleAloj ? '⚠️ ژمارەی علوج (Unregistered Number)' : 'ژمارەی تابلۆ (Car Plate)'}
+              <div className="flex items-center justify-between mb-1 gap-1">
+                <div className="flex items-center gap-1 shrink-0 min-w-0">
+                  <span className={`text-[11px] font-medium truncate ${isVehicleAloj ? 'text-amber-800 font-bold' : 'text-slate-600'}`}>
+                    {isVehicleAloj ? '⚠️ ژمارەی علوج' : 'ژمارەی تابلۆ'}
                   </span>
                   {currentProvince && (
-                    <span className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-bold border ${
+                    <span className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-bold border shrink-0 ${
                       currentProvince.isKurdistanRegion
                         ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
                         : 'bg-blue-50 text-blue-800 border-blue-300'
                     }`}>
-                      {currentProvince.code} {currentProvince.mark ? `• ${currentProvince.mark}` : ''}
+                      {currentProvince.code}
                     </span>
                   )}
                 </div>
                 <button
                   type="button"
                   onClick={() => setIsCameraOpen(true)}
-                  className="text-[11px] text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-lg border border-slate-300 flex items-center gap-1 transition cursor-pointer font-medium"
+                  className="text-[10px] sm:text-[11px] text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-lg border border-slate-300 flex items-center gap-1 transition cursor-pointer font-medium shrink-0"
                 >
-                  <Camera className="w-3.5 h-3.5 text-slate-600" />
-                  وێنەگرتن بە کامێرا
+                  <Camera className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-600" />
+                  <span>کامێرا</span>
                 </button>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col xs:flex-row gap-1.5 sm:gap-2">
                 <div className="relative flex-1">
                   <input
                     type="text"
                     inputMode={isVehicleAloj ? 'numeric' : 'text'}
-                    placeholder={isVehicleAloj ? 'وەک: 84920 (تەنها ژمارە بنووسە)' : '21 H 11111'}
+                    placeholder={isVehicleAloj ? 'وەک: 84920' : '21 H 11111'}
                     value={plateNumber}
                     onChange={(e) => {
                       const val = e.target.value;
                       if (isVehicleAloj) {
-                        // Allow typing digits and spaces
                         setPlateNumber(val.replace(/[^0-9\s]/g, ''));
                       } else {
                         setPlateNumber(val);
-                        // Auto-detect province if starts with official code like 21, 22, 23, 24, 11, etc.
                         const detectedProv = detectProvinceFromPlateString(val);
                         if (detectedProv) {
                           setPlateCity(detectedProv.nameKrd);
                         }
                       }
                     }}
-                    className={`w-full bg-white rounded-xl px-3 py-2 text-xs font-mono font-bold text-left focus:outline-none pl-9 shadow-2xs transition ${
+                    className={`w-full bg-white rounded-xl px-3 py-2 text-xs font-mono font-bold text-left focus:outline-none pl-8 shadow-2xs transition ${
                       isVehicleAloj
                         ? 'border border-amber-400 text-amber-900 focus:border-amber-600 placeholder-amber-400'
                         : 'border border-slate-300 text-slate-900 focus:border-slate-800 placeholder-slate-400'
@@ -757,7 +755,7 @@ export const FastKurdishOilIntake: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setIsCameraOpen(true)}
-                    className="absolute left-1.5 top-1.5 p-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition"
+                    className="absolute left-1 top-1.5 p-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition"
                     title="کردنەوەی کامێرا بۆ خوێندنەوەی تابلۆ"
                   >
                     <Camera className="w-3.5 h-3.5" />
@@ -774,7 +772,7 @@ export const FastKurdishOilIntake: React.FC = () => {
                       setIsAloj(false);
                     }
                   }}
-                  className={`bg-white border rounded-xl px-2.5 py-2 text-xs focus:outline-none cursor-pointer max-w-[175px] shadow-2xs ${
+                  className={`bg-white border rounded-xl px-2.5 py-2 text-xs focus:outline-none cursor-pointer w-full xs:w-auto xs:max-w-[145px] sm:max-w-[175px] shadow-2xs shrink-0 ${
                     isVehicleAloj
                       ? 'border-amber-400 text-amber-900 font-bold'
                       : 'border-slate-300 text-slate-800'
@@ -896,7 +894,7 @@ export const FastKurdishOilIntake: React.FC = () => {
             {/* Viscosity Options */}
             <div>
               <span className="text-[11px] text-slate-600 font-medium block mb-1">خەستی ڕۆن (Viscosity):</span>
-              <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5">
+              <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-7 gap-1.5">
                 {(['5W-30', '0W-20', '5W-20', '5W-40', '10W-40', '20W-50', '0W-16'] as OilViscosity[]).map((v) => (
                   <button
                     key={v}
