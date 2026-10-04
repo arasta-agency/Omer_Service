@@ -8,12 +8,14 @@ import {
   Printer,
   Check,
   RotateCcw,
-  LogOut,
+  Info,
   Wrench,
   Gauge,
   Tag,
   CheckCircle2,
   Camera,
+  Coins,
+  Receipt,
 } from 'lucide-react';
 import { PlateCameraModal, DetectedPlateResult } from './PlateCameraModal';
 import { OmarOilLogo } from './OmarOilLogo';
@@ -249,16 +251,17 @@ export const FastKurdishOilIntake: React.FC = () => {
   const [plateCity, setPlateCity] = useState<string>('سلێمانی');
   const [isCameraOpen, setIsCameraOpen] = useState<boolean>(false);
 
-  // Step 3: Current odometer & Check
+  // Step 3: Current odometer
   const [currentKm, setCurrentKm] = useState<number>(55000);
-  const [needsOilChange, setNeedsOilChange] = useState<boolean | null>(null);
 
-  // Step 4: Oil specifications (only if needsOilChange is true)
+  // Step 4: Oil specifications and cost
   const [selectedOil, setSelectedOil] = useState(OIL_MODELS_LIST[0]);
   const [viscosity, setViscosity] = useState<OilViscosity>('0W-20');
   const [oilVolume, setOilVolume] = useState<number>(4.5);
   const [filterChanged, setFilterChanged] = useState<boolean>(true);
   const [intervalKm, setIntervalKm] = useState<number>(8000);
+  const [totalCostIQD, setTotalCostIQD] = useState<string>('');
+  const [costNotes, setCostNotes] = useState<string>('');
 
   // Feedback notifications
   const [notice, setNotice] = useState<{ message: string; type: 'info' | 'success' } | null>(null);
@@ -333,7 +336,8 @@ export const FastKurdishOilIntake: React.FC = () => {
     setIsManualBrand(false);
     setSelectedBrand(CAR_BRANDS[0]);
     setSelectedModel(CAR_BRANDS[0].models[0]);
-    setNeedsOilChange(null);
+    setTotalCostIQD('');
+    setCostNotes('');
   };
 
   const handlePlateDetected = (res: DetectedPlateResult) => {
@@ -388,20 +392,7 @@ export const FastKurdishOilIntake: React.FC = () => {
     });
   };
 
-  // IF IT DOES NOT NEED CHANGE: DO NOT SAVE ANY DATA! LET IT GO!
-  const handleLetItGo = () => {
-    const carDesc = `${finalMakeString} ${finalModelString}`;
-    resetForm();
-    setNotice({
-      message: `ڕۆنەکەی تەواو و پاک بوو. ئۆتۆمبێلەکە (${carDesc}) بەڕێکرا بێ تۆمارکردنی زانیاری.`,
-      type: 'info',
-    });
-    setTimeout(() => {
-      setNotice(null);
-    }, 6000);
-  };
-
-  // IF IT NEEDS CHANGE: DRAIN AND REFILL, SAVE RECORD & PRINT STICKER
+  // PERFORM OIL CHANGE: DRAIN AND REFILL, SAVE RECORD & PRINT STICKER
   const handlePerformOilChange = (printSticker: boolean) => {
     if (!ownerName.trim() || !plateNumber.trim()) {
       alert('تکایە ناوی خاوەن ئۆتۆمبێل و ژمارەی تابلۆ بنووسە!');
@@ -447,6 +438,10 @@ export const FastKurdishOilIntake: React.FC = () => {
     });
 
     // 4. Save Oil Record
+    const costNumber = Number(totalCostIQD) || 0;
+    const costSummaryText = costNumber > 0 ? ` • تێچووی گشتی: ${costNumber.toLocaleString()} IQD` : '';
+    const costNotesText = costNotes.trim() ? ` (${costNotes.trim()})` : '';
+
     const savedRec = saveOilService(newWO.id, {
       vehicleId: newVeh.id,
       customerId: newCust.id,
@@ -458,13 +453,15 @@ export const FastKurdishOilIntake: React.FC = () => {
       oilCategory: selectedOil.category,
       volumeUsedLiters: Number(oilVolume),
       oilFilterPartNumber: filterChanged ? 'فلتەری ئەسڵی OEM' : 'نەگۆڕدراوە',
+      totalCostIQD: costNumber,
+      costNotes: costNotes.trim(),
       serviceIntervalKm: intervalKm,
       serviceIntervalMonths: 6,
       nextServiceOdometer: nextServiceKm,
       nextServiceDate: nextServiceDate,
       technicianName: 'وەستای سێرڤس',
       stickerPrinted: printSticker,
-      notes: `ڕۆنی کۆن بەتاڵکرا. ${oilVolume} لیتر ڕۆنی نوێی ${selectedOil.brand} ${viscosity} تێکرا.`,
+      notes: `ڕۆنی کۆن بەتاڵکرا. ${oilVolume} لیتر ڕۆنی نوێی ${selectedOil.brand} ${viscosity} تێکرا.${costSummaryText}${costNotesText}`,
     });
 
     updateWorkOrderStatus(newWO.id, 'ready_pickup');
@@ -474,7 +471,7 @@ export const FastKurdishOilIntake: React.FC = () => {
     }
 
     setNotice({
-      message: `ڕۆنی نوێ (${selectedOil.brand} ${viscosity}) تێکرا بۆ ${ownerName} (${finalMakeString} ${finalModelString} - ${fullPlateString}). وادەی داهاتوو: ${nextServiceKm.toLocaleString()} کم.`,
+      message: `ڕۆنی نوێ (${selectedOil.brand} ${viscosity}) تێکرا بۆ ${ownerName} (${finalMakeString} ${finalModelString} - ${fullPlateString}).${costNumber > 0 ? ` تێچوو: ${costNumber.toLocaleString()} دینار.` : ''} وادەی داهاتوو: ${nextServiceKm.toLocaleString()} کم.`,
       type: 'success',
     });
 
@@ -496,7 +493,7 @@ export const FastKurdishOilIntake: React.FC = () => {
             {notice.type === 'success' ? (
               <CheckCircle2 className="w-5 h-5 text-slate-200" />
             ) : (
-              <LogOut className="w-5 h-5 text-slate-400" />
+              <Info className="w-5 h-5 text-slate-400" />
             )}
             <span>{notice.message}</span>
           </div>
@@ -523,8 +520,12 @@ export const FastKurdishOilIntake: React.FC = () => {
               ئۆتۆمبێلەکە هات پشکنینی بۆ دەکرێت: ئەگەر ڕۆنەکەی پاک بوو بەڕێ دەکرێت بێ تۆمارکردنی زانیاری، ئەگەر پێویستی پێبوو دەستبەجێ بەتاڵ دەکرێتەوە و ڕۆنی نوێ دەکرێتە ناوی.
             </p>
           </div>
-          <div className="bg-slate-950/80 p-2 rounded-xl border border-slate-800 self-start sm:self-auto shadow-sm">
-            <OmarOilLogo variant="red" size="md" />
+          <div className="bg-slate-950/80 px-2.5 py-1.5 rounded-xl border border-slate-800 self-start sm:self-auto shadow-sm flex items-center gap-2">
+            <OmarOilLogo variant="red" size="sm" />
+            <div className="text-right">
+              <span className="block text-[11px] font-bold text-white leading-none">عومەر ئۆیڵ</span>
+              <span className="block text-[8.5px] text-slate-400 font-sans mt-0.5">ڕانیە - شەقامی سەرەکی سناعە</span>
+            </div>
           </div>
         </div>
 
@@ -894,67 +895,64 @@ export const FastKurdishOilIntake: React.FC = () => {
           </div>
         </div>
 
-        {/* STEP 3: ODOMETER & OIL CHECK (DECISION: GOOD OR NEEDS CHANGE) */}
-        <div className="space-y-3 pt-2 border-t border-slate-800">
-          <label className="text-xs font-bold text-slate-300 block">
-            ٣. پشکنینی کیلۆمەتر و ڕۆن:
-          </label>
+        {/* STEP 3: CURRENT ODOMETER */}
+        <div className="space-y-3 pt-3 border-t border-slate-800">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+              <Gauge className="w-4 h-4 text-slate-400" />
+              <span>٣. کیلۆمەتری ئێستای ئۆتۆمبێل (Current Odometer):</span>
+            </label>
+            <span className="text-[11px] text-slate-400">
+              کیلۆمەتری سەر داشبۆرد دیاری بکە
+            </span>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
-            <div>
-              <span className="text-[11px] text-slate-400 block mb-1">کیلۆمەتری ئێستا (KM)</span>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div className="relative w-full sm:w-64">
               <input
                 type="number"
-                value={currentKm}
+                value={currentKm || ''}
                 onChange={(e) => setCurrentKm(Number(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white focus:outline-none focus:border-slate-600"
+                placeholder="55000"
+                className="w-full bg-slate-950 border border-slate-800 focus:border-slate-600 rounded-xl pr-3 pl-12 py-2.5 text-sm font-mono font-bold text-white focus:outline-none transition"
               />
+              <span className="absolute left-3 top-2.5 text-[11px] font-mono text-slate-500 font-bold">
+                KM
+              </span>
             </div>
 
-            {/* Decision A: Good (Don't save, let it go) */}
-            <div>
-              <button
-                type="button"
-                onClick={() => {
-                  setNeedsOilChange(false);
-                  handleLetItGo();
-                }}
-                className="w-full py-2.5 px-3 rounded-xl border border-slate-700 bg-slate-950 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-medium transition flex items-center justify-center gap-1.5"
-              >
-                <LogOut className="w-4 h-4 text-slate-400" />
-                <span>ڕۆنەکەی تەواوە - با بڕوات (بێ پاشەکەوتکردن)</span>
-              </button>
-            </div>
-
-            {/* Decision B: Needs change (Drain and refill) */}
-            <div>
-              <button
-                type="button"
-                onClick={() => setNeedsOilChange(true)}
-                className={`w-full py-2.5 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1.5 ${
-                  needsOilChange === true
-                    ? 'bg-slate-200 border-white text-slate-950'
-                    : 'bg-slate-800 border-slate-700 text-white hover:bg-slate-700'
-                }`}
-              >
-                <Wrench className="w-4 h-4" />
-                <span>ڕۆنەکەی سووتاوە - با بیگۆڕین</span>
-              </button>
+            {/* Quick Mileage adjustment/presets */}
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-[10px] text-slate-400 ml-1">دیاریکردنی خێرا:</span>
+              {[25000, 50000, 75000, 100000, 150000].map((kmVal) => (
+                <button
+                  key={kmVal}
+                  type="button"
+                  onClick={() => setCurrentKm(kmVal)}
+                  className={`px-2.5 py-1 rounded-lg border text-xs font-mono font-medium transition cursor-pointer ${
+                    currentKm === kmVal
+                      ? 'bg-slate-700 text-white border-slate-500 shadow-sm'
+                      : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white hover:bg-slate-900'
+                  }`}
+                >
+                  {kmVal.toLocaleString()}
+                </button>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* STEP 4: OIL SPECIFICATIONS (ONLY APPEARS IF IT NEEDS CHANGE) */}
-        {needsOilChange === true && (
-          <div className="space-y-4 pt-4 border-t border-slate-800 bg-slate-950/70 p-4 rounded-xl border">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-white">
-                ٤. هەڵبژاردنی جۆری ڕۆن و خەستی:
-              </span>
-              <span className="text-[11px] text-slate-400">
-                بەتاڵکردنەوەی ڕۆنی کۆن و تێکردنی نوێ
-              </span>
-            </div>
+        {/* STEP 4: OIL SPECIFICATIONS & COST */}
+        <div className="space-y-4 pt-4 border-t border-slate-800 bg-slate-950/70 p-4 rounded-xl border border-slate-800">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-white flex items-center gap-1.5">
+              <Droplet className="w-4 h-4 text-amber-500" />
+              ٤. هەڵبژاردنی جۆری ڕۆن، خەستی و تێچوو:
+            </span>
+            <span className="text-[11px] text-slate-400">
+              بەتاڵکردنەوەی ڕۆنی کۆن و تێکردنی ڕۆنی نوێ
+            </span>
+          </div>
 
             {/* Oil Brand Selection */}
             <div>
@@ -1050,6 +1048,95 @@ export const FastKurdishOilIntake: React.FC = () => {
               </span>
             </div>
 
+            {/* Total Cost & Price of Oil & Service (تێچووی ڕۆن و سەرجەم خەرجییەکان) */}
+            <div className="bg-slate-900/90 p-4 rounded-xl border border-emerald-500/30 space-y-3 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <Coins className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold text-white block">
+                      تێچووی ڕۆنی نوێ و سەرجەم خەرجییەکان (کۆی گشتی بە دینار IQD):
+                    </label>
+                    <span className="text-[10px] text-slate-400">
+                      بڕی پارەی ڕۆن، فلتەر و کرێی دەست بنووسە بۆ تۆمارکردن و ئەرشیف
+                    </span>
+                  </div>
+                </div>
+                <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-medium self-start sm:self-auto">
+                  پاشەکەوت دەکرێت بۆ مێژووی ئۆتۆمبێل
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+                {/* Numeric Price Input */}
+                <div className="sm:col-span-5 relative">
+                  <input
+                    type="number"
+                    min="0"
+                    step="1000"
+                    placeholder="بۆ نموونە: 45000"
+                    value={totalCostIQD}
+                    onChange={(e) => setTotalCostIQD(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 focus:border-emerald-500 rounded-xl pr-3 pl-12 py-2 text-sm font-mono font-bold text-emerald-400 placeholder-slate-600 focus:outline-none transition"
+                  />
+                  <span className="absolute left-2.5 top-2 text-[10px] text-slate-500 font-mono font-bold">
+                    دینار
+                  </span>
+                </div>
+
+                {/* Quick Presets for common Iraqi oil change costs */}
+                <div className="sm:col-span-7 flex flex-wrap items-center gap-1.5">
+                  <span className="text-[10px] text-slate-400 ml-1">دیاریکردنی خێرا:</span>
+                  {[25000, 35000, 45000, 55000, 65000, 85000].map((preset) => (
+                    <button
+                      key={preset}
+                      type="button"
+                      onClick={() => setTotalCostIQD(preset.toString())}
+                      className={`px-2 py-1 text-xs font-mono font-bold rounded-lg border transition cursor-pointer ${
+                        totalCostIQD === preset.toString()
+                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-sm'
+                          : 'bg-slate-950 hover:bg-slate-800 text-slate-300 border-slate-800 hover:border-slate-700'
+                      }`}
+                    >
+                      {preset.toLocaleString()}
+                    </button>
+                  ))}
+                  {totalCostIQD && (
+                    <button
+                      type="button"
+                      onClick={() => setTotalCostIQD('')}
+                      className="text-[10px] text-slate-500 hover:text-rose-400 px-1 py-0.5 transition"
+                      title="سڕینەوەی نرخ"
+                    >
+                      سڕینەوە ✕
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Optional notes regarding cost */}
+              <div>
+                <input
+                  type="text"
+                  placeholder="تێبینی خەرجی (ئارەزوومەندانە، وەک: ٤ لیتر ڕۆنی مۆتۆل + فلتەری ئەسڵی + شوشتنی مەکینە)"
+                  value={costNotes}
+                  onChange={(e) => setCostNotes(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 focus:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-300 placeholder-slate-600 focus:outline-none transition"
+                />
+              </div>
+
+              {totalCostIQD && Number(totalCostIQD) > 0 && (
+                <div className="flex items-center justify-between text-xs pt-1 px-1 bg-slate-950/60 rounded-lg p-2 border border-slate-800/80">
+                  <span className="text-slate-400">کۆی تێچووی تۆمارکراو بۆ ئەم سەردانە:</span>
+                  <span className="font-mono font-bold text-emerald-400 text-sm">
+                    {Number(totalCostIQD).toLocaleString()} IQD
+                  </span>
+                </div>
+              )}
+            </div>
+
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-2 pt-2">
               <button
@@ -1070,7 +1157,6 @@ export const FastKurdishOilIntake: React.FC = () => {
               </button>
             </div>
           </div>
-        )}
       </div>
 
       {/* Camera Plate Scanner Modal */}

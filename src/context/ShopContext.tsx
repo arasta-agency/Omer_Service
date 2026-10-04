@@ -258,6 +258,8 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
       oilCategory: data.oilCategory || 'Full Synthetic',
       volumeUsedLiters: Number(data.volumeUsedLiters) || 5.0,
       oilFilterPartNumber: data.oilFilterPartNumber || 'OX 388D',
+      totalCostIQD: Number(data.totalCostIQD) || 0,
+      costNotes: data.costNotes || '',
       auxiliaryFluids: data.auxiliaryFluids || {
         brakeFluid: 'ok',
         transmissionFluid: 'ok',
@@ -315,6 +317,17 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }
           return v;
         })
+      );
+    }
+
+    // Update customer spend if cost provided
+    if (fullRecord.totalCostIQD && fullRecord.totalCostIQD > 0 && fullRecord.customerId) {
+      setCustomers((prev) =>
+        prev.map((c) =>
+          c.id === fullRecord.customerId
+            ? { ...c, totalSpend: (c.totalSpend || 0) + Number(fullRecord.totalCostIQD) }
+            : c
+        )
       );
     }
 

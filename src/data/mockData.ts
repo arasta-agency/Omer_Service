@@ -11,16 +11,18 @@ import {
 } from '../types';
 
 export const SHOP_INFO = {
-  name: 'ئۆمەر ئۆیڵ (Omar Oil)',
+  name: 'عومەر ئۆیڵ (Omar Oil)',
   nameEn: 'Omar Oil',
-  legalName: 'سەنتەری ئۆمەر ئۆیڵ بۆ گۆڕینی ڕۆن و خزمەتگوزاری ئۆتۆمبێل (Omar Oil)',
+  legalName: 'سەنتەری عومەر ئۆیڵ بۆ گۆڕینی ڕۆن و خزمەتگوزاری ئۆتۆمبێل (Omar Oil)',
   slogan: 'سێرڤسی پێشکەوتوو، گۆڕینی ڕۆنی ئەسڵی و پشکنینی ئۆتۆمبێل',
-  phone: '0770 152 4499',
-  whatsappNumber: '+9647701524499',
+  phone: '0750 157 3424',
+  phoneFormatted: '+964 750 157 3424',
+  whatsappNumber: '+9647501573424',
   email: 'info@omaroil.krd',
   website: 'www.omaroil.krd',
-  address: 'شەقامی سەرەکی، بەرامبەر تابلۆی گشتی',
-  city: 'سلێمانی / هەولێر - هەرێمی کوردستان',
+  address: 'شەقامی سەرەکی سناعە',
+  city: 'ڕانیە',
+  fullAddress: 'ڕانیە، شەقامی سەرەکی سناعە',
   taxId: 'KR-994012',
   laborRatePerHour: 15000, // 15,000 IQD per hour
   defaultTaxRatePercent: 0, // Iraq/Kurdistan local standard
@@ -331,6 +333,8 @@ export const INITIAL_OIL_SERVICE: OilServiceRecord = {
   oilCategory: 'Full Synthetic',
   volumeUsedLiters: 4.8,
   oilFilterPartNumber: '90915-YZZD2 (Toyota OEM)',
+  totalCostIQD: 55000,
+  costNotes: '٥ لیتر کاسترۆڵ ئەسڵی 5W-30 + فلتەری تۆیۆتا OEM + پشکنینی گشتی',
   auxiliaryFluids: {
     brakeFluid: 'ok',
     transmissionFluid: 'ok',
@@ -710,7 +714,7 @@ export const INITIAL_REMINDERS: RetentionReminder[] = [
     daysDiff: -13, // 13 days overdue!
     channel: 'whatsapp',
     status: 'scheduled',
-    renderedMessage: '⚠️ ئاگاداری گرنگ بۆ کاک کاروان عەلی ڕەحیم: وادەی گۆڕینی ڕۆنی ئۆتۆمبێلەکەت نیسان پاترۆڵ (تابلۆ: 21 B 11840 سلێمانی) تێپەڕیوە (لە 2026-09-20). بۆ پاراستنی بزوێنەر سەردانی ئۆمەر سێرڤس بکە (0770 152 4499)!',
+    renderedMessage: '⚠️ ئاگاداری گرنگ بۆ کاک کاروان عەلی ڕەحیم: وادەی گۆڕینی ڕۆنی ئۆتۆمبێلەکەت نیسان پاترۆڵ (تابلۆ: 21 B 11840 سلێمانی) تێپەڕیوە (لە 2026-09-20). بۆ پاراستنی بزوێنەر سەردانی عومەر ئۆیڵ بکە (0750 157 3424)!',
   },
   {
     id: 'rem-2',
@@ -722,7 +726,7 @@ export const INITIAL_REMINDERS: RetentionReminder[] = [
     daysDiff: 7, // Due in 7 days
     channel: 'whatsapp',
     status: 'scheduled',
-    renderedMessage: 'سڵاو د. پشتیوان ئەحمەد، لە ئۆمەر سێرڤسەوە. ئۆتۆمبێلەکەت فۆرد ئێف-١٥٠ (22 A 90812 هەولێر) نزیکە لە کاتی گۆڕینی ڕۆن لە ۳۳,۰۰۰ کم (بەروار: 2026-10-10). پەیوەندیمان پێوە بکە بە 0770 152 4499.',
+    renderedMessage: 'سڵاو د. پشتیوان ئەحمەد، لە عومەر ئۆیڵەوە. ئۆتۆمبێلەکەت فۆرد ئێف-١٥٠ (22 A 90812 هەولێر) نزیکە لە کاتی گۆڕینی ڕۆن لە ۳۳,۰۰۰ کم (بەروار: 2026-10-10). پەیوەندیمان پێوە بکە بە 0750 157 3424.',
   },
   {
     id: 'rem-3',
@@ -734,7 +738,7 @@ export const INITIAL_REMINDERS: RetentionReminder[] = [
     daysDiff: -7, // 7 days overdue
     channel: 'sms',
     status: 'scheduled',
-    renderedMessage: '⚠️ ئاگاداری بۆ هەڵمەت ڕەشید: ڕۆنی کیا سپۆرتاجەکەت (22 C 14502 هەولێر) کاتی بەسەرچووە. سەردانی ئۆمەر سێرڤس بکە.',
+    renderedMessage: '⚠️ ئاگاداری بۆ هەڵمەت ڕەشید: ڕۆنی کیا سپۆرتاجەکەت (22 C 14502 هەولێر) کاتی بەسەرچووە. سەردانی عومەر ئۆیڵ بکە.',
   },
   {
     id: 'rem-4',
@@ -746,7 +750,7 @@ export const INITIAL_REMINDERS: RetentionReminder[] = [
     daysDiff: 22,
     channel: 'whatsapp',
     status: 'scheduled',
-    renderedMessage: 'سڵاو خاتوو شیلان، ئۆتۆمبێلە توسانەکەت لە مانگی داهاتوودا کاتی سێرڤسی دێت. ئۆمەر سێرڤس هەمیشە لە خزمەتتاندایە.',
+    renderedMessage: 'سڵاو خاتوو شیلان، ئۆتۆمبێلە توسانەکەت لە مانگی داهاتوودا کاتی سێرڤسی دێت. عومەر ئۆیڵ هەمیشە لە خزمەتتاندایە.',
   },
 ];
 

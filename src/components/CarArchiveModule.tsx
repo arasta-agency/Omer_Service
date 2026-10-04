@@ -19,6 +19,8 @@ import {
   Clock,
   Sparkles,
   ArrowRight,
+  Coins,
+  Receipt,
 } from 'lucide-react';
 
 interface CarArchiveModuleProps {
@@ -70,6 +72,13 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
       );
       const latestOilRecord = sortedOilRecords[0];
 
+      // Cost calculations
+      const totalCostSpent = sortedOilRecords.reduce(
+        (acc, r) => acc + (r.totalCostIQD || 0),
+        0
+      );
+      const latestCost = latestOilRecord?.totalCostIQD || 0;
+
       return {
         vehicle: v,
         customer,
@@ -77,6 +86,8 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
         oilRecords: sortedOilRecords,
         totalVisits: totalVisitsCount,
         latestOilRecord,
+        totalCostSpent,
+        latestCost,
         lastServiceDate: latestOilRecord?.serviceDate || v.mileageHistory?.[0]?.date || v.createdAt.split('T')[0],
         latestViscosity: latestOilRecord?.oilViscosity || '5W-30',
         latestBrand: latestOilRecord?.oilBrand || 'ڕۆنی دیاریکراو',
@@ -111,6 +122,9 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
   const totalVehiclesCount = vehicles.length;
   const totalVisitsCount = vehicleArchiveList.reduce((sum, item) => sum + item.totalVisits, 0);
   const repeatCustomersCount = vehicleArchiveList.filter((item) => item.totalVisits > 1).length;
+  const totalLoggedRevenue = useMemo(() => {
+    return vehicleArchiveList.reduce((sum, item) => sum + item.totalCostSpent, 0);
+  }, [vehicleArchiveList]);
 
   return (
     <div className="space-y-5 text-right font-kurdish text-slate-200">
@@ -128,7 +142,7 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
           </div>
 
           {/* Simple Counters */}
-          <div className="flex items-center gap-3 text-xs font-mono">
+          <div className="flex flex-wrap items-center gap-3 text-xs font-mono">
             <div className="bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
               <span className="text-slate-400">ئۆتۆمبێل: </span>
               <strong className="text-white font-bold">{totalVehiclesCount}</strong>
@@ -139,10 +153,13 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
               <strong className="text-white font-bold">{totalVisitsCount} جار</strong>
             </div>
 
-            <div className="bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800 hidden sm:block">
-              <span className="text-slate-400">کڕیاری بەردەوام: </span>
-              <strong className="text-white font-bold">{repeatCustomersCount}</strong>
-            </div>
+            {totalLoggedRevenue > 0 && (
+              <div className="bg-slate-950 px-3 py-1.5 rounded-xl border border-emerald-500/30 text-emerald-400 flex items-center gap-1.5">
+                <Coins className="w-3.5 h-3.5" />
+                <span className="text-slate-400">کۆی تێچووی تۆمارکراو: </span>
+                <strong className="font-bold">{totalLoggedRevenue.toLocaleString()} IQD</strong>
+              </div>
+            )}
           </div>
         </div>
 
@@ -264,6 +281,15 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
 
                   {/* Summary of Last Oil Service & Actions */}
                   <div className="flex flex-wrap items-center gap-3 self-end sm:self-center">
+                    {item.latestCost > 0 && (
+                      <div className="text-left bg-slate-950/80 px-3 py-1.5 rounded-xl border border-emerald-500/30 text-xs">
+                        <span className="text-[10px] text-emerald-400 block">دوایین تێچوو</span>
+                        <span className="font-bold text-emerald-400 block font-mono">
+                          {item.latestCost.toLocaleString()} IQD
+                        </span>
+                      </div>
+                    )}
+
                     <div className="text-left bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-800 text-xs">
                       <span className="text-[10px] text-slate-500 block">دوایین ڕۆنگۆڕین</span>
                       <span className="font-bold text-slate-200 block font-mono">
@@ -321,14 +347,25 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
                               </span>
 
                               <div>
-                                <div className="flex items-center gap-2">
+                                <div className="flex flex-wrap items-center gap-2">
                                   <strong className="text-white font-mono text-xs">
                                     {rec.oilViscosity} — {rec.oilBrand}
                                   </strong>
                                   <span className="text-slate-500 font-mono">({rec.volumeUsedLiters} لیتر)</span>
+                                  {rec.totalCostIQD !== undefined && rec.totalCostIQD > 0 && (
+                                    <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 rounded-md font-mono font-bold text-[11px] flex items-center gap-1">
+                                      <Coins className="w-3 h-3 text-emerald-400" />
+                                      {rec.totalCostIQD.toLocaleString()} IQD
+                                    </span>
+                                  )}
                                 </div>
                                 <p className="text-[11px] text-slate-400 mt-0.5">
                                   بەروار: <span className="font-mono text-slate-300">{rec.serviceDate}</span> • کیلۆمەتر: <span className="font-mono text-slate-300">{rec.currentOdometer.toLocaleString()} KM</span> • فلتەر: <span className="text-slate-300">{rec.oilFilterPartNumber}</span>
+                                  {rec.costNotes && (
+                                    <span className="text-slate-400 mr-1.5 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
+                                      تێبینی: {rec.costNotes}
+                                    </span>
+                                  )}
                                 </p>
                               </div>
                             </div>

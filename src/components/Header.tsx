@@ -13,17 +13,20 @@ import {
   History,
   UserCheck,
   Zap,
+  FileText,
 } from 'lucide-react';
 
 interface HeaderProps {
   currentTab: string;
   setCurrentTab: (tab: string) => void;
   onOpenNewIntake: () => void;
+  onOpenPresentation?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   currentTab,
   setCurrentTab,
+  onOpenPresentation,
 }) => {
   const { userRole, setUserRole, workOrders, reminders, inventory } = useShop();
 
@@ -55,25 +58,28 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Header Bar */}
         <div className="flex items-center justify-between h-14 border-b border-slate-800/80">
-          {/* Logo & Brand */}
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="bg-slate-950/90 px-1.5 py-0.5 rounded-lg border border-slate-800 flex items-center justify-center shrink-0">
+          {/* Logo & Brand - Refined, compact & contained so it never spills out of its box */}
+          <div className="flex items-center gap-2 bg-slate-950/90 px-2 py-1 rounded-xl border border-slate-800/80 shrink-0 max-w-[200px] sm:max-w-none shadow-sm">
+            <div className="flex items-center justify-center shrink-0">
               <OmarOilLogo variant="red" size="xs" />
             </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <h1 className="text-xs sm:text-sm font-bold text-white tracking-tight whitespace-nowrap">
-                  ئۆمەر ئۆیڵ <span className="text-[10px] text-slate-400 font-normal font-sans">(Omar Oil)</span>
-                </h1>
-                <span className="text-[10px] text-slate-500 hidden md:inline border-r border-slate-800 pr-1.5">
-                  سێرڤس و ڕۆنگۆڕین
+            <div className="min-w-0 leading-tight">
+              <div className="flex items-center gap-1">
+                <span className="text-[11px] sm:text-xs font-bold text-white tracking-tight truncate">
+                  عومەر ئۆیڵ
+                </span>
+                <span className="text-[9px] text-slate-400 font-sans font-medium truncate">
+                  (Omar Oil)
                 </span>
               </div>
+              <p className="text-[8.5px] text-slate-400 truncate">
+                ڕانیە • شەقامی سەرەکی سناعە
+              </p>
             </div>
           </div>
 
           {/* Simple Subtle Stats */}
-          <div className="hidden md:flex items-center gap-4 text-xs text-slate-400 font-mono">
+          <div className="hidden lg:flex items-center gap-4 text-xs text-slate-400 font-mono">
             <div>
               ئۆتۆمبێل لە کاردا: <span className="text-white font-semibold">{activeCarsCount}</span>
             </div>
@@ -89,7 +95,7 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
 
-          {/* Right: Role Switcher & Primary Action */}
+          {/* Right: Role Switcher & Actions */}
           <div className="flex items-center gap-2">
             <div className="flex items-center bg-slate-950 px-2 py-1 rounded-lg border border-slate-800 text-xs">
               <UserCheck className="w-3.5 h-3.5 text-slate-400 ml-1.5 hidden sm:inline" />
@@ -106,10 +112,23 @@ export const Header: React.FC<HeaderProps> = ({
               </select>
             </div>
 
+            {onOpenPresentation && (
+              <button
+                type="button"
+                onClick={onOpenPresentation}
+                className="px-2.5 py-1.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 font-bold text-xs rounded-lg transition flex items-center gap-1.5 cursor-pointer shadow-sm"
+                title="پرێزێنتەیشنی سیستەم بە کوردی سۆرانی و داگرتنی وەک PDF"
+              >
+                <FileText className="w-3.5 h-3.5 text-rose-400" />
+                <span className="hidden sm:inline">پرێزێنتەیشن (PDF)</span>
+                <span className="sm:hidden">PDF</span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={() => setCurrentTab('fast_oil')}
-              className="px-3 py-1.5 bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs rounded-lg transition flex items-center gap-1.5"
+              className="px-3 py-1.5 bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs rounded-lg transition flex items-center gap-1.5 cursor-pointer"
             >
               <Droplet className="w-3.5 h-3.5 text-slate-950" />
               <span>پشکنینی نوێ</span>
@@ -118,32 +137,45 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Navigation Tabs Bar */}
-        <nav className="flex space-x-1 space-x-reverse overflow-x-auto py-1.5 scrollbar-none">
-          {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-            const isActive = currentTab === item.id;
+        <nav className="flex space-x-1 space-x-reverse overflow-x-auto py-1.5 scrollbar-none items-center justify-between">
+          <div className="flex space-x-1 space-x-reverse">
+            {NAV_ITEMS.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentTab === item.id;
 
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => setCurrentTab(item.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg whitespace-nowrap transition ${
-                  isActive
-                    ? 'bg-slate-800 text-white font-bold border border-slate-700'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-                }`}
-              >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                <span>{item.label}</span>
-                {item.badge !== undefined && item.badge > 0 && (
-                  <span className="text-[10px] bg-slate-700 text-slate-200 px-1.5 rounded-full font-mono">
-                    {item.badge}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setCurrentTab(item.id)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg whitespace-nowrap transition cursor-pointer ${
+                    isActive
+                      ? 'bg-slate-800 text-white font-bold border border-slate-700'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <span>{item.label}</span>
+                  {item.badge !== undefined && item.badge > 0 && (
+                    <span className="text-[10px] bg-slate-700 text-slate-200 px-1.5 rounded-full font-mono">
+                      {item.badge}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {onOpenPresentation && (
+            <button
+              type="button"
+              onClick={onOpenPresentation}
+              className="hidden md:flex items-center gap-1 px-2.5 py-1 text-xs text-rose-400 hover:text-rose-300 font-bold transition whitespace-nowrap"
+            >
+              <FileText className="w-3 h-3" />
+              <span>پێشکەشکردنی سیستەم (PDF)</span>
+            </button>
+          )}
         </nav>
       </div>
     </header>

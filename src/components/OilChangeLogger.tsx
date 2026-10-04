@@ -18,6 +18,7 @@ import {
   Car,
   Filter,
   Check,
+  Coins,
 } from 'lucide-react';
 
 interface OilChangeLoggerProps {
@@ -97,6 +98,12 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
     targetWO?.assignedTechnician || 'وەستا'
   );
   const [notes, setNotes] = useState(targetWO?.oilRecord?.notes || '');
+  const [totalCostIQD, setTotalCostIQD] = useState<string>(
+    targetWO?.oilRecord?.totalCostIQD ? targetWO.oilRecord.totalCostIQD.toString() : ''
+  );
+  const [costNotes, setCostNotes] = useState<string>(
+    targetWO?.oilRecord?.costNotes || ''
+  );
   const [savedNotification, setSavedNotification] = useState(false);
 
   useEffect(() => {
@@ -117,6 +124,8 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
         setAuxFluids(wo.oilRecord.auxiliaryFluids);
         setAuxFilters(wo.oilRecord.auxiliaryFilters);
         setNotes(wo.oilRecord.notes || '');
+        setTotalCostIQD(wo.oilRecord.totalCostIQD ? wo.oilRecord.totalCostIQD.toString() : '');
+        setCostNotes(wo.oilRecord.costNotes || '');
       }
     }
   }, [selectedWOId, workOrders, vehicles]);
@@ -144,6 +153,8 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
       oilCategory: category,
       volumeUsedLiters: volumeLiters,
       oilFilterPartNumber: filterPartNo,
+      totalCostIQD: Number(totalCostIQD) || 0,
+      costNotes: costNotes.trim(),
       auxiliaryFluids: auxFluids,
       auxiliaryFilters: auxFilters,
       serviceIntervalKm: intervalKm,
@@ -440,6 +451,67 @@ export const OilChangeLogger: React.FC<OilChangeLoggerProps> = ({
                     {calculatedNextDate}
                   </span>
                 </div>
+              </div>
+
+              {/* Total Service Cost Field */}
+              <div className="bg-slate-900 p-3.5 rounded-xl border border-emerald-500/30 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <Coins className="w-4 h-4 text-emerald-400" />
+                    <span className="text-xs font-bold text-white">تێچووی ڕۆن و سەرجەم خەرجییەکان (IQD):</span>
+                  </div>
+                  <span className="text-[10px] text-emerald-400 font-mono">دینار</span>
+                </div>
+
+                <div className="relative">
+                  <input
+                    type="number"
+                    min="0"
+                    step="1000"
+                    placeholder="بۆ نموونە: 45000"
+                    value={totalCostIQD}
+                    onChange={(e) => setTotalCostIQD(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 focus:border-emerald-500 rounded-xl pr-3 pl-12 py-2 text-xs font-mono font-bold text-emerald-400 placeholder-slate-600 focus:outline-none"
+                  />
+                  <span className="absolute left-2.5 top-2 text-[10px] text-slate-500 font-mono font-bold">
+                    دینار
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap gap-1">
+                  {[25000, 35000, 45000, 55000, 65000, 85000].map((preset) => (
+                    <button
+                      key={preset}
+                      type="button"
+                      onClick={() => setTotalCostIQD(preset.toString())}
+                      className={`px-2 py-0.5 text-[11px] font-mono rounded border transition ${
+                        totalCostIQD === preset.toString()
+                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-bold'
+                          : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                      }`}
+                    >
+                      {preset.toLocaleString()}
+                    </button>
+                  ))}
+                  {totalCostIQD && (
+                    <button
+                      type="button"
+                      onClick={() => setTotalCostIQD('')}
+                      className="text-[10px] text-slate-500 hover:text-rose-400 px-1 py-0.5 transition"
+                      title="سڕینەوە"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+
+                <input
+                  type="text"
+                  placeholder="تێبینی خەرجی (بۆ نموونە: ڕۆن + فلتەر + کرێی دەست)"
+                  value={costNotes}
+                  onChange={(e) => setCostNotes(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-300 placeholder-slate-600 focus:outline-none"
+                />
               </div>
 
               {/* Notes */}

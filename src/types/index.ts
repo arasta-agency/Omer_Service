@@ -67,6 +67,8 @@ export interface OilServiceRecord {
   oilCategory: OilCategory;
   volumeUsedLiters: number;
   oilFilterPartNumber: string;
+  totalCostIQD?: number;
+  costNotes?: string;
   auxiliaryFluids: {
     brakeFluid: FluidCondition;
     transmissionFluid: FluidCondition;

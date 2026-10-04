@@ -12,6 +12,7 @@ import { RetentionCenter } from './components/RetentionCenter';
 import { WindshieldStickerModal } from './components/WindshieldStickerModal';
 import { CustomerApprovalPortalModal } from './components/CustomerApprovalPortalModal';
 import { NewIntakeModal } from './components/NewIntakeModal';
+import { SystemPresentationModal } from './components/SystemPresentationModal';
 import { SHOP_INFO } from './data/mockData';
 import { OmarOilLogo } from './components/OmarOilLogo';
 import {
@@ -23,6 +24,7 @@ import {
   Phone,
   Layers,
   Zap,
+  FileText,
 } from 'lucide-react';
 
 const MainShopApp: React.FC = () => {
@@ -30,6 +32,7 @@ const MainShopApp: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>('fast_oil');
   const [activeWOForBay, setActiveWOForBay] = useState<string | undefined>(undefined);
   const [isNewIntakeOpen, setIsNewIntakeOpen] = useState(false);
+  const [isPresentationOpen, setIsPresentationOpen] = useState(false);
 
   const {
     stickerModalRecord,
@@ -61,6 +64,7 @@ const MainShopApp: React.FC = () => {
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         onOpenNewIntake={() => setIsNewIntakeOpen(true)}
+        onOpenPresentation={() => setIsPresentationOpen(true)}
       />
 
       {/* Main Content Area */}
@@ -138,19 +142,33 @@ const MainShopApp: React.FC = () => {
         />
       )}
 
+      {/* System Kurdish Sorani Presentation PDF Modal */}
+      {isPresentationOpen && (
+        <SystemPresentationModal onClose={() => setIsPresentationOpen(false)} />
+      )}
+
       {/* Global Shop Footer */}
       <footer className="no-print bg-slate-950 border-t border-slate-900 py-6 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2.5">
-            <div className="bg-slate-900 px-1.5 py-0.5 rounded-lg border border-slate-800">
+            <div className="bg-slate-900 px-1.5 py-0.5 rounded-lg border border-slate-800 flex items-center justify-center shrink-0">
               <OmarOilLogo variant="red" size="xs" />
             </div>
-            <span className="font-bold text-xs text-slate-300 font-display">Omar Oil</span>
-            <span>• {SHOP_INFO.address}, {SHOP_INFO.city}</span>
-            <span>• پەیوەندی: {SHOP_INFO.phone}</span>
+            <span className="font-bold text-xs text-slate-300 font-display">عومەر ئۆیڵ (Omar Oil)</span>
+            <span>• {SHOP_INFO.city}، {SHOP_INFO.address}</span>
+            <span>• پەیوەندی: {SHOP_INFO.phoneFormatted || SHOP_INFO.phone}</span>
           </div>
 
           <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={() => setIsPresentationOpen(true)}
+              className="text-rose-400 hover:text-rose-300 font-bold flex items-center gap-1.5 transition cursor-pointer"
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>پرێزێنتەیشنی سیستەم (PDF)</span>
+            </button>
+
             <button
               type="button"
               onClick={() => {
@@ -158,7 +176,7 @@ const MainShopApp: React.FC = () => {
                   resetAllData();
                 }
               }}
-              className="hover:text-slate-300 flex items-center gap-1 transition"
+              className="hover:text-slate-300 flex items-center gap-1 transition cursor-pointer"
             >
               <RotateCcw className="w-3 h-3" />
               رێکخستنەوەی داتا (Reset)
