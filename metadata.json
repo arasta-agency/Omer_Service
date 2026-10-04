@@ -1,0 +1,6 @@
+{
+  "name": "Omer Service - Automotive Repair & Maintenance SaaS",
+  "description": "High-efficiency auto repair & service center platform featuring specialized oil change calculation, windshield sticker printing, digital tire tread & alignment diagnostics, DVI, Kanban job cards, and automated customer retention.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
