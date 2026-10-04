@@ -57,21 +57,40 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="bg-white border-b border-slate-200 sticky top-0 z-40 text-right shadow-xs w-full max-w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 w-full max-w-full overflow-hidden">
         {/* Main Header Bar */}
-        <div className="flex items-center justify-between h-14 border-b border-slate-100 gap-1.5 sm:gap-2 w-full max-w-full overflow-hidden">
-          {/* Logo & Brand - Refined, compact & contained */}
-          <div className="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-xl border border-slate-200 shrink min-w-0 max-w-[130px] xs:max-w-[180px] sm:max-w-none shadow-2xs">
-            <div className="flex items-center justify-center shrink-0">
-              <OmarOilLogo variant="red" size="xs" />
-            </div>
-            <div className="min-w-0 leading-tight">
-              <div className="flex items-center gap-1 min-w-0">
-                <span className="text-[11px] sm:text-xs font-bold text-slate-900 tracking-tight truncate">
-                  عومەر ئۆیڵ
-                </span>
+        <div className="flex items-center justify-between h-14 border-b border-slate-100 gap-1.5 sm:gap-3 w-full max-w-full overflow-hidden">
+          {/* Logo & Brand + Employee Account Selector */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0">
+            {/* Logo */}
+            <div className="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-xl border border-slate-200 shrink-0 shadow-2xs">
+              <div className="flex items-center justify-center shrink-0">
+                <OmarOilLogo variant="red" size="xs" />
               </div>
-              <p className="text-[8px] sm:text-[8.5px] text-slate-500 truncate hidden xs:block">
-                ڕانیە • شەقامی سەرەکی
-              </p>
+              <div className="min-w-0 leading-tight">
+                <div className="flex items-center gap-1">
+                  <span className="text-[11px] sm:text-xs font-bold text-slate-900 tracking-tight truncate">
+                    عومەر ئۆیڵ
+                  </span>
+                </div>
+                <p className="text-[8px] sm:text-[8.5px] text-slate-500 truncate hidden xs:block">
+                  ڕانیە • شەقامی سەرەکی
+                </p>
+              </div>
+            </div>
+
+            {/* Employee Role / Account Selector - Positioned next to logo */}
+            <div className="flex items-center bg-slate-50 px-2 py-1 rounded-xl border border-slate-200 text-xs shadow-2xs shrink-0">
+              <UserCheck className="w-3.5 h-3.5 text-slate-600 ml-1 shrink-0" />
+              <select
+                value={userRole}
+                onChange={(e) => setUserRole(e.target.value as UserRole)}
+                className="bg-transparent text-[11px] sm:text-xs text-slate-800 font-bold focus:outline-none cursor-pointer max-w-[105px] xs:max-w-[140px] sm:max-w-none text-right"
+              >
+                {ROLES.map((r) => (
+                  <option key={r.key} value={r.key} className="bg-white text-slate-900">
+                    {r.label}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
@@ -92,23 +111,8 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
 
-          {/* Right: Role Switcher & Primary Action */}
+          {/* Actions */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-            <div className="flex items-center bg-slate-50 px-1.5 sm:px-2 py-1 rounded-lg border border-slate-200 text-xs shrink-0">
-              <UserCheck className="w-3.5 h-3.5 text-slate-500 ml-1 hidden sm:inline" />
-              <select
-                value={userRole}
-                onChange={(e) => setUserRole(e.target.value as UserRole)}
-                className="bg-transparent text-[10px] sm:text-xs text-slate-700 font-medium focus:outline-none cursor-pointer max-w-[72px] xs:max-w-[100px] sm:max-w-none truncate"
-              >
-                {ROLES.map((r) => (
-                  <option key={r.key} value={r.key} className="bg-white text-slate-900">
-                    {r.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
             {onOpenPresentation && (
               <button
                 type="button"
