@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+import { toJpeg } from 'html-to-image';
 import { OmarOilLogo } from './OmarOilLogo';
 import { SHOP_INFO } from '../data/mockData';
 import {
@@ -436,16 +436,15 @@ export const SystemPresentationModal: React.FC<SystemPresentationModalProps> = (
         setExportStatusText(`وێنەگرتن و دروستکردنی لاپەڕەی ${i + 1} لە ${total}...`);
         setExportProgress(Math.round(((i + 1) / (total + 1)) * 90));
 
-        // Use high-fidelity canvas rasterization
-        const canvas = await html2canvas(slideEl, {
-          scale: 2, // 2x high resolution
-          useCORS: true,
-          logging: false,
-          backgroundColor: '#020617', // slate-950
-          windowWidth: 1200,
+        // Use high-fidelity SVG/Canvas rasterization via html-to-image (supports OKLCH, Tailwind v4, Kurdish typography)
+        const imgData = await toJpeg(slideEl, {
+          quality: 0.95,
+          pixelRatio: 2,
+          backgroundColor: '#020617',
+          width: 1200,
+          height: 848,
+          cacheBust: true,
         });
-
-        const imgData = canvas.toDataURL('image/jpeg', 0.95);
 
         if (i > 0) {
           pdf.addPage('a4', 'landscape');

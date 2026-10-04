@@ -47,6 +47,7 @@ export const CAR_BRANDS: CarBrandOption[] = [
       'فۆڕچونەر (Fortuner)',
       'ئەڤەلۆن (Avalon)',
       'هایلەندەر (Highlander)',
+      'جۆری تر (Other)',
     ],
   },
   {
@@ -62,6 +63,7 @@ export const CAR_BRANDS: CarBrandOption[] = [
       'ناڤارا (Navara)',
       'ماکسیما (Maxima)',
       'کیکس (Kicks)',
+      'جۆری تر (Other)',
     ],
   },
   {
@@ -77,6 +79,7 @@ export const CAR_BRANDS: CarBrandOption[] = [
       'ئێکسپیدیشن (Expedition)',
       'ڕێنجەر (Ranger)',
       'فیۆژن (Fusion)',
+      'جۆری تر (Other)',
     ],
   },
   {
@@ -91,6 +94,7 @@ export const CAR_BRANDS: CarBrandOption[] = [
       'ئەکسێنت (Accent)',
       'پالیسەید (Palisade)',
       'کۆنا (Kona)',
+      'جۆری تر (Other)',
     ],
   },
   {
@@ -104,6 +108,7 @@ export const CAR_BRANDS: CarBrandOption[] = [
       'سێراتۆ / فۆرتێ (Cerato / Forte)',
       'تێلوڕاید (Telluride)',
       'پیکانتۆ (Picanto)',
+      'جۆری تر (Other)',
     ],
   },
   {
@@ -117,6 +122,7 @@ export const CAR_BRANDS: CarBrandOption[] = [
       'مالیبۆ (Malibu)',
       'تراڤێرس (Traverse)',
       'کامارۆ (Camaro)',
+      'جۆری تر (Other)',
     ],
   },
   {
@@ -129,6 +135,7 @@ export const CAR_BRANDS: CarBrandOption[] = [
       'S-Class (S500/S580)',
       'G-Wagon (G63)',
       'GLE / GLC',
+      'جۆری تر (Other)',
     ],
   },
   {
@@ -141,6 +148,7 @@ export const CAR_BRANDS: CarBrandOption[] = [
       '7 Series (740i/750i)',
       'X5 / X6',
       'X7',
+      'جۆری تر (Other)',
     ],
   },
   {
@@ -153,13 +161,14 @@ export const CAR_BRANDS: CarBrandOption[] = [
       'چەلەنجەر (Challenger)',
       'دورانگۆ (Durango)',
       'ڕانگلەر (Wrangler)',
+      'جۆری تر (Other)',
     ],
   },
   {
     id: 'other',
-    nameKrd: 'مارکەی تر (دەستی)',
-    nameEn: 'Other Make',
-    models: ['مۆدێلی تر بە دەست بنووسە'],
+    nameKrd: 'جۆری تر (Other)',
+    nameEn: 'Other',
+    models: ['جۆری تر (Other)'],
   },
 ];
 
@@ -236,12 +245,9 @@ export const FastKurdishOilIntake: React.FC = () => {
     setStickerModalRecord,
   } = useShop();
 
-  // Step 1: Car selection
+  // Step 1: Car selection (If in list pick it, if not choose other - no typing needed)
   const [selectedBrand, setSelectedBrand] = useState<CarBrandOption>(CAR_BRANDS[0]);
   const [selectedModel, setSelectedModel] = useState<string>(CAR_BRANDS[0].models[0]);
-  const [isManualBrand, setIsManualBrand] = useState<boolean>(false);
-  const [customBrandName, setCustomBrandName] = useState<string>('');
-  const [customModelName, setCustomModelName] = useState<string>('');
 
   // Step 2: Owner name & Plate number / Registration type
   const [ownerName, setOwnerName] = useState<string>('');
@@ -272,17 +278,8 @@ export const FastKurdishOilIntake: React.FC = () => {
     ? `علوج ${plateNumber.trim()}`.trim()
     : `${plateNumber.trim()} ${plateCity}`.trim();
 
-  // Active flags for custom make & model entry
-  const isCustomBrandActive = isManualBrand || selectedBrand.id === 'other';
-  const isCustomModelActive = isCustomBrandActive || selectedModel === '__CUSTOM_MODEL__';
-
-  const finalMakeString = isCustomBrandActive
-    ? (customBrandName.trim() || 'جۆری تر')
-    : selectedBrand.nameKrd;
-
-  const finalModelString = isCustomModelActive
-    ? (customModelName.trim() || (selectedModel === '__CUSTOM_MODEL__' ? 'مۆدێلی تر' : selectedModel))
-    : selectedModel;
+  const finalMakeString = selectedBrand.nameKrd;
+  const finalModelString = selectedModel;
 
   // Next service calculation
   const nextServiceKm = Number(currentKm) + Number(intervalKm);
@@ -294,13 +291,7 @@ export const FastKurdishOilIntake: React.FC = () => {
 
   const handleBrandChange = (brand: CarBrandOption) => {
     setSelectedBrand(brand);
-    if (brand.id === 'other') {
-      setIsManualBrand(true);
-      setSelectedModel('__CUSTOM_MODEL__');
-    } else {
-      setIsManualBrand(false);
-      setSelectedModel(brand.models[0]);
-    }
+    setSelectedModel(brand.models[0] || 'جۆری تر (Other)');
 
     // Intelligent default oil match
     if (brand.id === 'toyota') {
@@ -331,9 +322,6 @@ export const FastKurdishOilIntake: React.FC = () => {
     setPlateNumber('');
     setIsAloj(false);
     setPlateCity('سلێمانی');
-    setCustomBrandName('');
-    setCustomModelName('');
-    setIsManualBrand(false);
     setSelectedBrand(CAR_BRANDS[0]);
     setSelectedModel(CAR_BRANDS[0].models[0]);
     setTotalCostIQD('');
@@ -353,7 +341,7 @@ export const FastKurdishOilIntake: React.FC = () => {
       setIsAloj(false);
     }
 
-    // If make was detected from camera, auto-select it if possible
+    // If make was detected from camera, auto-select it if possible; if not just pick other
     if (res.make) {
       const matchBrand = CAR_BRANDS.find(
         (b) =>
@@ -366,21 +354,14 @@ export const FastKurdishOilIntake: React.FC = () => {
           const matchModel = matchBrand.models.find((m) =>
             m.toLowerCase().includes(res.model?.toLowerCase() || '')
           );
-          if (matchModel) {
-            setSelectedModel(matchModel);
-          } else {
-            setSelectedModel('__CUSTOM_MODEL__');
-            setCustomModelName(res.model);
-          }
+          setSelectedModel(matchModel || matchBrand.models[0] || 'جۆری تر (Other)');
+        } else {
+          setSelectedModel(matchBrand.models[0] || 'جۆری تر (Other)');
         }
       } else {
         const otherB = CAR_BRANDS.find((b) => b.id === 'other') || CAR_BRANDS[CAR_BRANDS.length - 1];
         setSelectedBrand(otherB);
-        setIsManualBrand(true);
-        setCustomBrandName(res.make);
-        if (res.model) {
-          setCustomModelName(res.model);
-        }
+        setSelectedModel(otherB.models[0]);
       }
     }
     const isDetectedAloj = res.city === 'علوج' || isPureDigits || res.plateNumber.includes('علوج');
@@ -479,28 +460,28 @@ export const FastKurdishOilIntake: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-5 text-right font-kurdish text-slate-200">
+    <div className="max-w-4xl mx-auto space-y-5 text-right font-kurdish text-slate-800">
       {/* Notice Banner */}
       {notice && (
         <div
           className={`p-4 rounded-xl border text-sm font-medium flex items-center justify-between transition ${
             notice.type === 'success'
-              ? 'bg-slate-900 border-slate-700 text-white'
-              : 'bg-slate-900/80 border-slate-800 text-slate-300'
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
+              : 'bg-slate-100 border-slate-200 text-slate-800'
           }`}
         >
           <div className="flex items-center gap-2.5">
             {notice.type === 'success' ? (
-              <CheckCircle2 className="w-5 h-5 text-slate-200" />
+              <CheckCircle2 className="w-5 h-5 text-emerald-600" />
             ) : (
-              <Info className="w-5 h-5 text-slate-400" />
+              <Info className="w-5 h-5 text-slate-500" />
             )}
             <span>{notice.message}</span>
           </div>
           <button
             type="button"
             onClick={() => setNotice(null)}
-            className="text-xs text-slate-400 hover:text-white px-2 py-1"
+            className="text-xs text-slate-500 hover:text-slate-800 px-2 py-1 font-medium cursor-pointer"
           >
             داخستن
           </button>
@@ -508,23 +489,34 @@ export const FastKurdishOilIntake: React.FC = () => {
       )}
 
       {/* Main Single Clean Card */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-6 shadow-sm">
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-7 space-y-6 shadow-xs">
         {/* Title & Info */}
-        <div className="border-b border-slate-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="border-b border-slate-100 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Droplet className="w-5 h-5 text-slate-300" />
+            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <Droplet className="w-5 h-5 text-slate-700" />
               گۆڕینی ڕۆن و پشکنینی خێرا
             </h2>
-            <p className="text-xs text-slate-400 mt-1">
-              ئۆتۆمبێلەکە هات پشکنینی بۆ دەکرێت: ئەگەر ڕۆنەکەی پاک بوو بەڕێ دەکرێت بێ تۆمارکردنی زانیاری، ئەگەر پێویستی پێبوو دەستبەجێ بەتاڵ دەکرێتەوە و ڕۆنی نوێ دەکرێتە ناوی.
+            <p className="text-xs text-slate-500 mt-1">
+              هەڵبژاردنی ئۆتۆمبێل، دیاریکردنی کیلۆمەتر و تۆمارکردنی تێچووی ڕۆن بە شێوازێکی سادە و ڕوون.
             </p>
           </div>
-          <div className="bg-slate-950/80 px-2.5 py-1.5 rounded-xl border border-slate-800 self-start sm:self-auto shadow-sm flex items-center gap-2">
-            <OmarOilLogo variant="red" size="sm" />
-            <div className="text-right">
-              <span className="block text-[11px] font-bold text-white leading-none">عومەر ئۆیڵ</span>
-              <span className="block text-[8.5px] text-slate-400 font-sans mt-0.5">ڕانیە - شەقامی سەرەکی سناعە</span>
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={resetForm}
+              className="text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 flex items-center gap-1.5 transition cursor-pointer"
+              title="فۆرمی نوێ"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>فۆرمی نوێ</span>
+            </button>
+            <div className="bg-slate-50 px-2.5 py-1.5 rounded-xl border border-slate-200 shrink-0 shadow-2xs flex items-center gap-2">
+              <OmarOilLogo variant="red" size="sm" />
+              <div className="text-right">
+                <span className="block text-[11px] font-bold text-slate-900 leading-none">عومەر ئۆیڵ</span>
+                <span className="block text-[8.5px] text-slate-500 font-sans mt-0.5">ڕانیە - سناعە</span>
+              </div>
             </div>
           </div>
         </div>
@@ -532,12 +524,12 @@ export const FastKurdishOilIntake: React.FC = () => {
         {/* STEP 1: CHOOSE CAR BRAND & MODEL */}
         <div className="space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <label className="text-xs font-bold text-slate-300 block">
+            <label className="text-xs font-bold text-slate-900 block">
               ١. مارکە و مۆدێلی ئۆتۆمبێل (Make &amp; Model):
             </label>
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2">
               {/* Type Switcher: Regular vs علوج */}
-              <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
+              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
                 <button
                   type="button"
                   onClick={() => {
@@ -546,8 +538,8 @@ export const FastKurdishOilIntake: React.FC = () => {
                   }}
                   className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
                     !isVehicleAloj
-                      ? 'bg-slate-800 text-white shadow-sm border border-slate-600'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-slate-900 text-white shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   🚗 تابلۆی فەرمی (21 H)
@@ -560,40 +552,17 @@ export const FastKurdishOilIntake: React.FC = () => {
                   }}
                   className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer flex items-center gap-1 ${
                     isVehicleAloj
-                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-sm'
-                      : 'text-slate-400 hover:text-amber-300'
+                      ? 'bg-amber-500 text-slate-950 font-black shadow-xs'
+                      : 'text-slate-600 hover:text-amber-800'
                   }`}
                 >
                   <span>⚠️ علوج (بێ تابلۆ)</span>
                 </button>
               </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  if (!isCustomBrandActive) {
-                    const otherB = CAR_BRANDS.find((b) => b.id === 'other') || CAR_BRANDS[CAR_BRANDS.length - 1];
-                    setSelectedBrand(otherB);
-                    setIsManualBrand(true);
-                    setSelectedModel('__CUSTOM_MODEL__');
-                  } else {
-                    setIsManualBrand(false);
-                    setSelectedBrand(CAR_BRANDS[0]);
-                    setSelectedModel(CAR_BRANDS[0].models[0]);
-                  }
-                }}
-                className="text-[11px] px-2.5 py-1 rounded-lg border border-slate-700 bg-slate-950 text-slate-300 hover:text-white hover:border-slate-500 transition flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
-              >
-                {isCustomBrandActive ? (
-                  <span>↩️ گەڕانەوە بۆ هەڵبژاردن لە لیستەکە</span>
-                ) : (
-                  <span>✍️ ئەگەر لەم لیستەدا نییە: نووسینی دەستی</span>
-                )}
-              </button>
             </div>
           </div>
 
-          {/* Clean Brand List (Always available for fast 1-click pick) */}
+          {/* Clean Brand List */}
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
             {CAR_BRANDS.map((brand) => {
               const isSelected = selectedBrand.id === brand.id;
@@ -602,109 +571,60 @@ export const FastKurdishOilIntake: React.FC = () => {
                   key={brand.id}
                   type="button"
                   onClick={() => handleBrandChange(brand)}
-                  className={`px-3 py-2 rounded-xl border text-center text-xs transition cursor-pointer ${
+                  className={`px-3 py-2.5 rounded-xl border text-center text-xs transition cursor-pointer ${
                     isSelected
-                      ? 'bg-slate-800 border-slate-500 text-white font-bold shadow-sm'
-                      : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                      ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-xs'
+                      : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 hover:border-slate-300 font-medium'
                   }`}
                 >
                   <span className="block font-medium">{brand.nameKrd.split(' ')[0]}</span>
-                  <span className="text-[10px] text-slate-500">{brand.nameEn}</span>
+                  <span className={`text-[10px] ${isSelected ? 'text-slate-300' : 'text-slate-400'}`}>
+                    {brand.nameEn}
+                  </span>
                 </button>
               );
             })}
           </div>
 
-          {/* Custom Brand & Model Entry Mode */}
-          {isCustomBrandActive ? (
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-              <div className="flex items-center justify-between text-xs text-slate-300 border-b border-slate-800/80 pb-2">
-                <span className="font-bold text-white flex items-center gap-1.5">
-                  <span>✍️</span> تۆمارکردنی جۆر و مۆدێل بە دەست:
-                </span>
-                <span className="text-[10px] text-slate-500 font-mono">ئۆتۆمبێلی دەرەوەی لیستەکە</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="text-[11px] text-slate-300 block mb-1">
-                    جۆر و مارکەی ئۆتۆمبێل (Make / Brand) *
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="وەک: لێکسس، مازدا، چێری، ئۆدی، ڤۆڵکسواگن، هۆندا..."
-                    value={customBrandName}
-                    onChange={(e) => setCustomBrandName(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-slate-500"
-                    autoFocus
-                  />
-                </div>
-                <div>
-                  <label className="text-[11px] text-slate-300 block mb-1">
-                    مۆدێلی ئۆتۆمبێل (Model) *
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="وەک: RX350، CX-9، تیگۆ ٨، A6، سیڤیک، هتد..."
-                    value={customModelName}
-                    onChange={(e) => setCustomModelName(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-slate-500"
-                  />
-                </div>
-              </div>
+          {/* Model selection: if other, simple message; if brand has models, clean dropdown */}
+          {selectedBrand.id !== 'other' ? (
+            <div className="pt-1">
+              <span className="text-[11px] text-slate-600 font-medium block mb-1">
+                مۆدێلی {selectedBrand.nameKrd.split(' ')[0]} (Model):
+              </span>
+              <select
+                value={selectedModel}
+                onChange={(e) => setSelectedModel(e.target.value)}
+                className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none transition cursor-pointer shadow-2xs"
+              >
+                {selectedBrand.models.map((m, idx) => (
+                  <option key={idx} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
             </div>
           ) : (
-            /* Standard Model Selection Dropdown (with option to enter custom model) */
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-              <div>
-                <span className="text-[11px] text-slate-400 block mb-1">
-                  مۆدێلی {selectedBrand.nameKrd.split(' ')[0]} (Model)
-                </span>
-                <select
-                  value={selectedModel}
-                  onChange={(e) => setSelectedModel(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-slate-600 cursor-pointer"
-                >
-                  {selectedBrand.models.map((m, idx) => (
-                    <option key={idx} value={m}>
-                      {m}
-                    </option>
-                  ))}
-                  <option value="__CUSTOM_MODEL__">
-                    ✍️ مۆدێلێکی تر بنووسە بە دەست (لە لیستدا نییە)...
-                  </option>
-                </select>
+            <div className="pt-1">
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700 flex items-center justify-between">
+                <span>ئۆتۆمبێلی دیاریکراو: <strong>جۆری تر (Other)</strong></span>
+                <span className="text-[11px] text-slate-400 font-medium">پێویست بە هیچ نووسینێک ناکات</span>
               </div>
-
-              {selectedModel === '__CUSTOM_MODEL__' && (
-                <div>
-                  <span className="text-[11px] text-slate-300 block mb-1">
-                    ناوی مۆدێلی تر بنووسە (Model)
-                  </span>
-                  <input
-                    type="text"
-                    placeholder="وەک: کراون، یاریس، کڕۆس، هتد..."
-                    value={customModelName}
-                    onChange={(e) => setCustomModelName(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-slate-500"
-                    autoFocus
-                  />
-                </div>
-              )}
             </div>
           )}
 
           {/* Active Car Preview Badge */}
-          <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-400 bg-slate-950/60 px-3 py-1.5 rounded-lg border border-slate-800/80 font-mono">
-            <span>ئۆتۆمبێلی هەڵبژێردراو:</span>
-            <span className="text-white font-bold">{finalMakeString}</span>
-            <span className="text-slate-500">/</span>
-            <span className="text-slate-200 font-semibold">{finalModelString}</span>
+          <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+            <span>ئۆتۆمبێلی دیاریکراو:</span>
+            <strong className="text-slate-900">{finalMakeString}</strong>
+            <span className="text-slate-300">/</span>
+            <strong className="text-slate-800">{finalModelString}</strong>
             {isVehicleAloj ? (
-              <span className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[10px] font-bold flex items-center gap-1">
+              <span className="px-2 py-0.5 rounded bg-amber-100 border border-amber-300 text-amber-900 text-[10px] font-bold flex items-center gap-1">
                 ⚠️ جۆری علوج (بێ تابلۆ {plateNumber ? `- ${plateNumber}` : ''})
               </span>
             ) : (
-              <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 text-[10px]">
+              <span className="px-2 py-0.5 rounded bg-slate-200/80 text-slate-700 text-[10px] font-medium">
                 تابلۆی فەرمی ({plateCity})
               </span>
             )}
@@ -712,15 +632,15 @@ export const FastKurdishOilIntake: React.FC = () => {
         </div>
 
         {/* STEP 2: OWNER NAME & CAR PLATE */}
-        <div className="space-y-3 pt-2 border-t border-slate-800">
+        <div className="space-y-3 pt-3 border-t border-slate-200">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <label className="text-xs font-bold text-slate-300 block">
+            <label className="text-xs font-bold text-slate-900 block">
               ٢. ناوی خاوەن و ژمارەی تابلۆی ئۆتۆمبێل:
             </label>
 
             {/* Quick Switch for Alooj / Regular */}
             <div className="flex items-center gap-1 text-[11px]">
-              <span className="text-slate-400">جۆری تابلۆ:</span>
+              <span className="text-slate-500">جۆری تابلۆ:</span>
               <button
                 type="button"
                 onClick={() => {
@@ -729,8 +649,8 @@ export const FastKurdishOilIntake: React.FC = () => {
                 }}
                 className={`px-2 py-0.5 rounded-lg font-bold transition cursor-pointer ${
                   !isVehicleAloj
-                    ? 'bg-slate-800 text-white border border-slate-600'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-slate-900 text-white'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 فەرمی (21 H)
@@ -743,8 +663,8 @@ export const FastKurdishOilIntake: React.FC = () => {
                 }}
                 className={`px-2 py-0.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1 ${
                   isVehicleAloj
-                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                    : 'text-slate-400 hover:text-amber-300'
+                    ? 'bg-amber-500 text-slate-950 font-black'
+                    : 'text-slate-600 hover:text-amber-800'
                 }`}
               >
                 <span>⚠️ علوج (تەنها ژمارە)</span>
@@ -754,7 +674,7 @@ export const FastKurdishOilIntake: React.FC = () => {
 
           {/* Special Alooj guidance banner if active */}
           {isVehicleAloj && (
-            <div className="p-2.5 bg-amber-950/20 border border-amber-500/30 rounded-xl text-xs text-amber-300 flex items-center justify-between gap-2">
+            <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span className="px-2 py-0.5 bg-amber-500 text-slate-950 font-black rounded text-[10px]">
                   علوج
@@ -763,7 +683,7 @@ export const FastKurdishOilIntake: React.FC = () => {
                   ئەم ئۆتۆمبێلە علوجە (بێ تابلۆیە) و فۆرماتی 21 H یان 22 A پەیڕەو ناکات؛ تەنها ژمارەی سەر سەیارەکە بنووسە.
                 </span>
               </div>
-              <span className="text-[10px] text-amber-400/80 font-mono hidden sm:inline">
+              <span className="text-[10px] text-amber-800 font-mono hidden sm:inline">
                 {plateNumber ? `تۆمار: علوج ${plateNumber}` : 'تەنها ژمارە'}
               </span>
             </div>
@@ -771,27 +691,27 @@ export const FastKurdishOilIntake: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <span className="text-[11px] text-slate-400 block mb-1">ناوی خاوەن ئۆتۆمبێل</span>
+              <span className="text-[11px] text-slate-600 font-medium block mb-1">ناوی خاوەن ئۆتۆمبێل</span>
               <input
                 type="text"
                 placeholder="ناوی خاوەن"
                 value={ownerName}
                 onChange={(e) => setOwnerName(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-slate-600"
+                className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none shadow-2xs transition"
               />
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-1.5">
-                  <span className={`text-[11px] font-medium ${isVehicleAloj ? 'text-amber-300 font-bold' : 'text-slate-400'}`}>
+                  <span className={`text-[11px] font-medium ${isVehicleAloj ? 'text-amber-800 font-bold' : 'text-slate-600'}`}>
                     {isVehicleAloj ? '⚠️ ژمارەی علوج (Unregistered Number)' : 'ژمارەی تابلۆ (Car Plate)'}
                   </span>
                   {currentProvince && (
                     <span className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-bold border ${
                       currentProvince.isKurdistanRegion
-                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                        : 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+                        ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                        : 'bg-blue-50 text-blue-800 border-blue-300'
                     }`}>
                       {currentProvince.code} {currentProvince.mark ? `• ${currentProvince.mark}` : ''}
                     </span>
@@ -800,9 +720,9 @@ export const FastKurdishOilIntake: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsCameraOpen(true)}
-                  className="text-[11px] text-slate-200 hover:text-white bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded-lg border border-slate-700 flex items-center gap-1 transition cursor-pointer font-medium"
+                  className="text-[11px] text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-lg border border-slate-300 flex items-center gap-1 transition cursor-pointer font-medium"
                 >
-                  <Camera className="w-3.5 h-3.5 text-white" />
+                  <Camera className="w-3.5 h-3.5 text-slate-600" />
                   وێنەگرتن بە کامێرا
                 </button>
               </div>
@@ -827,17 +747,17 @@ export const FastKurdishOilIntake: React.FC = () => {
                         }
                       }
                     }}
-                    className={`w-full bg-slate-950 rounded-xl px-3 py-2 text-xs font-mono font-bold text-left focus:outline-none pl-9 ${
+                    className={`w-full bg-white rounded-xl px-3 py-2 text-xs font-mono font-bold text-left focus:outline-none pl-9 shadow-2xs transition ${
                       isVehicleAloj
-                        ? 'border border-amber-500/40 text-amber-200 focus:border-amber-400 placeholder-amber-500/40'
-                        : 'border border-slate-800 text-white focus:border-slate-500 placeholder-slate-600'
+                        ? 'border border-amber-400 text-amber-900 focus:border-amber-600 placeholder-amber-400'
+                        : 'border border-slate-300 text-slate-900 focus:border-slate-800 placeholder-slate-400'
                     }`}
                     dir="ltr"
                   />
                   <button
                     type="button"
                     onClick={() => setIsCameraOpen(true)}
-                    className="absolute left-1.5 top-1.5 p-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white transition"
+                    className="absolute left-1.5 top-1.5 p-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition"
                     title="کردنەوەی کامێرا بۆ خوێندنەوەی تابلۆ"
                   >
                     <Camera className="w-3.5 h-3.5" />
@@ -854,10 +774,10 @@ export const FastKurdishOilIntake: React.FC = () => {
                       setIsAloj(false);
                     }
                   }}
-                  className={`bg-slate-950 border rounded-xl px-2.5 py-2 text-xs focus:outline-none cursor-pointer max-w-[175px] ${
+                  className={`bg-white border rounded-xl px-2.5 py-2 text-xs focus:outline-none cursor-pointer max-w-[175px] shadow-2xs ${
                     isVehicleAloj
-                      ? 'border-amber-500/40 text-amber-300 font-bold'
-                      : 'border-slate-800 text-slate-300'
+                      ? 'border-amber-400 text-amber-900 font-bold'
+                      : 'border-slate-300 text-slate-800'
                   }`}
                 >
                   <optgroup label="هەرێمی کوردستان (KR - Kurdistan Region)">
@@ -882,13 +802,13 @@ export const FastKurdishOilIntake: React.FC = () => {
             </div>
 
             <div>
-              <span className="text-[11px] text-slate-400 block mb-1">ژمارەی مۆبایل (ئارەزوومەندانە)</span>
+              <span className="text-[11px] text-slate-600 font-medium block mb-1">ژمارەی مۆبایل (ئارەزوومەندانە)</span>
               <input
                 type="text"
                 placeholder="0770 000 0000"
                 value={ownerPhone}
                 onChange={(e) => setOwnerPhone(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-slate-600 text-left font-mono"
+                className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none text-left font-mono shadow-2xs transition"
                 dir="ltr"
               />
             </div>
@@ -896,13 +816,13 @@ export const FastKurdishOilIntake: React.FC = () => {
         </div>
 
         {/* STEP 3: CURRENT ODOMETER */}
-        <div className="space-y-3 pt-3 border-t border-slate-800">
+        <div className="space-y-3 pt-3 border-t border-slate-200">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-              <Gauge className="w-4 h-4 text-slate-400" />
+            <label className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+              <Gauge className="w-4 h-4 text-slate-600" />
               <span>٣. کیلۆمەتری ئێستای ئۆتۆمبێل (Current Odometer):</span>
             </label>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-slate-500">
               کیلۆمەتری سەر داشبۆرد دیاری بکە
             </span>
           </div>
@@ -914,16 +834,16 @@ export const FastKurdishOilIntake: React.FC = () => {
                 value={currentKm || ''}
                 onChange={(e) => setCurrentKm(Number(e.target.value))}
                 placeholder="55000"
-                className="w-full bg-slate-950 border border-slate-800 focus:border-slate-600 rounded-xl pr-3 pl-12 py-2.5 text-sm font-mono font-bold text-white focus:outline-none transition"
+                className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl pr-3 pl-12 py-2.5 text-sm font-mono font-bold text-slate-900 focus:outline-none transition shadow-2xs"
               />
-              <span className="absolute left-3 top-2.5 text-[11px] font-mono text-slate-500 font-bold">
+              <span className="absolute left-3 top-2.5 text-[11px] font-mono text-slate-400 font-bold">
                 KM
               </span>
             </div>
 
             {/* Quick Mileage adjustment/presets */}
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-[10px] text-slate-400 ml-1">دیاریکردنی خێرا:</span>
+              <span className="text-[10px] text-slate-500 ml-1 font-medium">دیاریکردنی خێرا:</span>
               {[25000, 50000, 75000, 100000, 150000].map((kmVal) => (
                 <button
                   key={kmVal}
@@ -931,8 +851,8 @@ export const FastKurdishOilIntake: React.FC = () => {
                   onClick={() => setCurrentKm(kmVal)}
                   className={`px-2.5 py-1 rounded-lg border text-xs font-mono font-medium transition cursor-pointer ${
                     currentKm === kmVal
-                      ? 'bg-slate-700 text-white border-slate-500 shadow-sm'
-                      : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white hover:bg-slate-900'
+                      ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                      : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
                   }`}
                 >
                   {kmVal.toLocaleString()}
@@ -943,27 +863,27 @@ export const FastKurdishOilIntake: React.FC = () => {
         </div>
 
         {/* STEP 4: OIL SPECIFICATIONS & COST */}
-        <div className="space-y-4 pt-4 border-t border-slate-800 bg-slate-950/70 p-4 rounded-xl border border-slate-800">
+        <div className="space-y-4 pt-4 border-t border-slate-200 bg-slate-50/80 p-4 rounded-xl border border-slate-200">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-white flex items-center gap-1.5">
+            <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
               <Droplet className="w-4 h-4 text-amber-500" />
               ٤. هەڵبژاردنی جۆری ڕۆن، خەستی و تێچوو:
             </span>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-slate-500 font-medium">
               بەتاڵکردنەوەی ڕۆنی کۆن و تێکردنی ڕۆنی نوێ
             </span>
           </div>
 
             {/* Oil Brand Selection */}
             <div>
-              <span className="text-[11px] text-slate-400 block mb-1">مارکەی ڕۆن (Brand):</span>
+              <span className="text-[11px] text-slate-600 font-medium block mb-1">مارکەی ڕۆن (Brand):</span>
               <select
                 value={selectedOil.brand}
                 onChange={(e) => {
                   const found = OIL_MODELS_LIST.find((o) => o.brand === e.target.value);
                   if (found) handleOilChange(found);
                 }}
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-slate-600"
+                className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 focus:outline-none shadow-2xs transition cursor-pointer"
               >
                 {OIL_MODELS_LIST.map((oil, idx) => (
                   <option key={idx} value={oil.brand}>
@@ -975,17 +895,17 @@ export const FastKurdishOilIntake: React.FC = () => {
 
             {/* Viscosity Options */}
             <div>
-              <span className="text-[11px] text-slate-400 block mb-1">خەستی ڕۆن (Viscosity):</span>
+              <span className="text-[11px] text-slate-600 font-medium block mb-1">خەستی ڕۆن (Viscosity):</span>
               <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5">
                 {(['5W-30', '0W-20', '5W-20', '5W-40', '10W-40', '20W-50', '0W-16'] as OilViscosity[]).map((v) => (
                   <button
                     key={v}
                     type="button"
                     onClick={() => setViscosity(v)}
-                    className={`py-1.5 text-xs font-mono font-semibold rounded-lg border transition ${
+                    className={`py-1.5 text-xs font-mono font-semibold rounded-lg border transition cursor-pointer ${
                       viscosity === v
-                        ? 'bg-slate-200 text-slate-950 border-white'
-                        : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
+                        ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
                     }`}
                   >
                     {v}
@@ -997,25 +917,25 @@ export const FastKurdishOilIntake: React.FC = () => {
             {/* Volume, Filter, and Interval */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
               <div>
-                <span className="text-[11px] text-slate-400 block mb-1">بڕی ڕۆن (لیتر)</span>
+                <span className="text-[11px] text-slate-600 font-medium block mb-1">بڕی ڕۆن (لیتر)</span>
                 <input
                   type="number"
                   step="0.5"
                   value={oilVolume}
                   onChange={(e) => setOilVolume(Number(e.target.value))}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs font-mono font-bold text-white text-center"
+                  className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-3 py-1.5 text-xs font-mono font-bold text-slate-900 text-center shadow-2xs"
                 />
               </div>
 
               <div>
-                <span className="text-[11px] text-slate-400 block mb-1">فلتەری ڕۆن</span>
+                <span className="text-[11px] text-slate-600 font-medium block mb-1">فلتەری ڕۆن</span>
                 <button
                   type="button"
                   onClick={() => setFilterChanged(!filterChanged)}
-                  className={`w-full py-1.5 text-xs font-medium rounded-xl border transition ${
+                  className={`w-full py-1.5 text-xs font-medium rounded-xl border transition cursor-pointer shadow-2xs ${
                     filterChanged
-                      ? 'bg-slate-800 border-slate-600 text-white'
-                      : 'bg-slate-900 border-slate-800 text-slate-500'
+                      ? 'bg-emerald-50 border-emerald-300 text-emerald-900 font-bold'
+                      : 'bg-white border-slate-200 text-slate-500'
                   }`}
                 >
                   {filterChanged ? 'فلتەری نوێ دانرا ✓' : 'فلتەر نەگۆڕدرا'}
@@ -1023,11 +943,11 @@ export const FastKurdishOilIntake: React.FC = () => {
               </div>
 
               <div>
-                <span className="text-[11px] text-slate-400 block mb-1">ماوەی گۆڕین (کم)</span>
+                <span className="text-[11px] text-slate-600 font-medium block mb-1">ماوەی گۆڕین (کم)</span>
                 <select
                   value={intervalKm}
                   onChange={(e) => setIntervalKm(Number(e.target.value))}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-2.5 py-1.5 text-xs text-white"
+                  className="w-full bg-white border border-slate-300 focus:border-slate-800 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 shadow-2xs cursor-pointer"
                 >
                   <option value={5000}>٥,٠٠٠ کم</option>
                   <option value={8000}>٨,٠٠٠ کم</option>
@@ -1037,34 +957,34 @@ export const FastKurdishOilIntake: React.FC = () => {
             </div>
 
             {/* Calculated Next Service Overview */}
-            <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between text-xs gap-2">
-              <span className="text-slate-400">
+            <div className="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs flex flex-wrap items-center justify-between text-xs gap-2">
+              <span className="text-slate-600">
                 کیلۆمەتری داهاتوو:{' '}
-                <strong className="text-white font-mono">{nextServiceKm.toLocaleString()} KM</strong>
+                <strong className="text-slate-900 font-mono">{nextServiceKm.toLocaleString()} KM</strong>
               </span>
-              <span className="text-slate-400">
+              <span className="text-slate-600">
                 وادەی داهاتوو:{' '}
-                <strong className="text-white font-mono">{nextServiceDate}</strong>
+                <strong className="text-slate-900 font-mono">{nextServiceDate}</strong>
               </span>
             </div>
 
             {/* Total Cost & Price of Oil & Service (تێچووی ڕۆن و سەرجەم خەرجییەکان) */}
-            <div className="bg-slate-900/90 p-4 rounded-xl border border-emerald-500/30 space-y-3 shadow-sm">
+            <div className="bg-white p-4 rounded-xl border border-emerald-200 space-y-3 shadow-2xs">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
                 <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">
                     <Coins className="w-4 h-4" />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-white block">
+                    <label className="text-xs font-bold text-slate-900 block">
                       تێچووی ڕۆنی نوێ و سەرجەم خەرجییەکان (کۆی گشتی بە دینار IQD):
                     </label>
-                    <span className="text-[10px] text-slate-400">
+                    <span className="text-[10px] text-slate-500">
                       بڕی پارەی ڕۆن، فلتەر و کرێی دەست بنووسە بۆ تۆمارکردن و ئەرشیف
                     </span>
                   </div>
                 </div>
-                <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-medium self-start sm:self-auto">
+                <span className="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 rounded-full font-medium self-start sm:self-auto">
                   پاشەکەوت دەکرێت بۆ مێژووی ئۆتۆمبێل
                 </span>
               </div>
@@ -1079,7 +999,7 @@ export const FastKurdishOilIntake: React.FC = () => {
                     placeholder="بۆ نموونە: 45000"
                     value={totalCostIQD}
                     onChange={(e) => setTotalCostIQD(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 focus:border-emerald-500 rounded-xl pr-3 pl-12 py-2 text-sm font-mono font-bold text-emerald-400 placeholder-slate-600 focus:outline-none transition"
+                    className="w-full bg-slate-50 border border-slate-300 focus:border-emerald-600 rounded-xl pr-3 pl-12 py-2 text-sm font-mono font-bold text-emerald-800 placeholder-slate-400 focus:outline-none transition shadow-2xs"
                   />
                   <span className="absolute left-2.5 top-2 text-[10px] text-slate-500 font-mono font-bold">
                     دینار
@@ -1088,7 +1008,7 @@ export const FastKurdishOilIntake: React.FC = () => {
 
                 {/* Quick Presets for common Iraqi oil change costs */}
                 <div className="sm:col-span-7 flex flex-wrap items-center gap-1.5">
-                  <span className="text-[10px] text-slate-400 ml-1">دیاریکردنی خێرا:</span>
+                  <span className="text-[10px] text-slate-500 ml-1 font-medium">دیاریکردنی خێرا:</span>
                   {[25000, 35000, 45000, 55000, 65000, 85000].map((preset) => (
                     <button
                       key={preset}
@@ -1096,8 +1016,8 @@ export const FastKurdishOilIntake: React.FC = () => {
                       onClick={() => setTotalCostIQD(preset.toString())}
                       className={`px-2 py-1 text-xs font-mono font-bold rounded-lg border transition cursor-pointer ${
                         totalCostIQD === preset.toString()
-                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-sm'
-                          : 'bg-slate-950 hover:bg-slate-800 text-slate-300 border-slate-800 hover:border-slate-700'
+                          ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                          : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
                       }`}
                     >
                       {preset.toLocaleString()}
@@ -1107,7 +1027,7 @@ export const FastKurdishOilIntake: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setTotalCostIQD('')}
-                      className="text-[10px] text-slate-500 hover:text-rose-400 px-1 py-0.5 transition"
+                      className="text-[10px] text-slate-400 hover:text-rose-600 px-1 py-0.5 transition cursor-pointer"
                       title="سڕینەوەی نرخ"
                     >
                       سڕینەوە ✕
@@ -1123,14 +1043,14 @@ export const FastKurdishOilIntake: React.FC = () => {
                   placeholder="تێبینی خەرجی (ئارەزوومەندانە، وەک: ٤ لیتر ڕۆنی مۆتۆل + فلتەری ئەسڵی + شوشتنی مەکینە)"
                   value={costNotes}
                   onChange={(e) => setCostNotes(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 focus:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-300 placeholder-slate-600 focus:outline-none transition"
+                  className="w-full bg-slate-50 border border-slate-200 focus:border-slate-400 rounded-lg px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none transition shadow-2xs"
                 />
               </div>
 
               {totalCostIQD && Number(totalCostIQD) > 0 && (
-                <div className="flex items-center justify-between text-xs pt-1 px-1 bg-slate-950/60 rounded-lg p-2 border border-slate-800/80">
-                  <span className="text-slate-400">کۆی تێچووی تۆمارکراو بۆ ئەم سەردانە:</span>
-                  <span className="font-mono font-bold text-emerald-400 text-sm">
+                <div className="flex items-center justify-between text-xs pt-1 px-1 bg-emerald-50/70 rounded-lg p-2.5 border border-emerald-200/80">
+                  <span className="text-slate-700">کۆی تێچووی تۆمارکراو بۆ ئەم سەردانە:</span>
+                  <span className="font-mono font-bold text-emerald-800 text-sm">
                     {Number(totalCostIQD).toLocaleString()} IQD
                   </span>
                 </div>
@@ -1142,7 +1062,7 @@ export const FastKurdishOilIntake: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handlePerformOilChange(true)}
-                className="flex-1 py-3 bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2"
+                className="flex-1 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Printer className="w-4 h-4" />
                 تەواوکردن و چاپکردنی لەزگەی جام
@@ -1151,7 +1071,7 @@ export const FastKurdishOilIntake: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handlePerformOilChange(false)}
-                className="py-3 px-4 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition"
+                className="py-3 px-4 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl border border-slate-300 shadow-2xs transition cursor-pointer"
               >
                 تەواوکردن بێ چاپ
               </button>

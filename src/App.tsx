@@ -58,7 +58,7 @@ const MainShopApp: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-kurdish text-right" dir="rtl">
+    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-kurdish text-right" dir="rtl">
       {/* Header with Navigation & Role Switcher */}
       <Header
         currentTab={currentTab}
@@ -148,13 +148,13 @@ const MainShopApp: React.FC = () => {
       )}
 
       {/* Global Shop Footer */}
-      <footer className="no-print bg-slate-950 border-t border-slate-900 py-6 text-xs text-slate-500">
+      <footer className="no-print bg-slate-50 border-t border-slate-200 py-6 text-xs text-slate-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2.5">
-            <div className="bg-slate-900 px-1.5 py-0.5 rounded-lg border border-slate-800 flex items-center justify-center shrink-0">
+            <div className="bg-white px-1.5 py-0.5 rounded-lg border border-slate-200 flex items-center justify-center shrink-0 shadow-xs">
               <OmarOilLogo variant="red" size="xs" />
             </div>
-            <span className="font-bold text-xs text-slate-300 font-display">عومەر ئۆیڵ (Omar Oil)</span>
+            <span className="font-bold text-xs text-slate-800 font-display">عومەر ئۆیڵ (Omar Oil)</span>
             <span>• {SHOP_INFO.city}، {SHOP_INFO.address}</span>
             <span>• پەیوەندی: {SHOP_INFO.phoneFormatted || SHOP_INFO.phone}</span>
           </div>

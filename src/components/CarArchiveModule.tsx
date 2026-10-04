@@ -127,36 +127,36 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
   }, [vehicleArchiveList]);
 
   return (
-    <div className="space-y-5 text-right font-kurdish text-slate-200">
+    <div className="space-y-5 text-right font-kurdish text-slate-800">
       {/* Top Header & Simple Stats */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-2xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
           <div>
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <History className="w-5 h-5 text-slate-300" />
+            <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <History className="w-5 h-5 text-slate-700" />
               ئەرشیفی ئۆتۆمبێلەکان و مێژووی ڕۆنگۆڕین
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               گەڕان بەپێی ژمارەی تابلۆ، ناوی خاوەن، یان مۆبایل بۆ بینینی چەندین جار هاتنی ئۆتۆمبێلەکە و مێژووی گۆڕینی ڕۆن.
             </p>
           </div>
 
           {/* Simple Counters */}
-          <div className="flex flex-wrap items-center gap-3 text-xs font-mono">
-            <div className="bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
-              <span className="text-slate-400">ئۆتۆمبێل: </span>
-              <strong className="text-white font-bold">{totalVehiclesCount}</strong>
+          <div className="flex flex-wrap items-center gap-2.5 text-xs font-mono">
+            <div className="bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 shadow-2xs">
+              <span className="text-slate-500">ئۆتۆمبێل: </span>
+              <strong className="text-slate-900 font-bold">{totalVehiclesCount}</strong>
             </div>
 
-            <div className="bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
-              <span className="text-slate-400">کۆی ڕۆنگۆڕین: </span>
-              <strong className="text-white font-bold">{totalVisitsCount} جار</strong>
+            <div className="bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 shadow-2xs">
+              <span className="text-slate-500">کۆی ڕۆنگۆڕین: </span>
+              <strong className="text-slate-900 font-bold">{totalVisitsCount} جار</strong>
             </div>
 
             {totalLoggedRevenue > 0 && (
-              <div className="bg-slate-950 px-3 py-1.5 rounded-xl border border-emerald-500/30 text-emerald-400 flex items-center gap-1.5">
-                <Coins className="w-3.5 h-3.5" />
-                <span className="text-slate-400">کۆی تێچووی تۆمارکراو: </span>
+              <div className="bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 text-emerald-800 flex items-center gap-1.5 shadow-2xs">
+                <Coins className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="text-emerald-700">کۆی تێچووی تۆمارکراو: </span>
                 <strong className="font-bold">{totalLoggedRevenue.toLocaleString()} IQD</strong>
               </div>
             )}
@@ -166,13 +166,13 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
         {/* Search Bar & Filter Tabs */}
         <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
           <div className="sm:col-span-8 relative">
-            <Search className="w-4 h-4 text-slate-500 absolute right-3 top-3" />
+            <Search className="w-4 h-4 text-slate-400 absolute right-3 top-3" />
             <input
               type="text"
               placeholder="گەڕان بەپێی ژمارەی تابلۆ (21 A 45892)، ناوی خاوەن، مۆبایل، تۆیۆتا، نیسان..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl pr-9 pl-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-slate-600"
+              className="w-full bg-slate-50 border border-slate-200 focus:border-slate-800 rounded-xl pr-9 pl-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none transition shadow-2xs"
             />
           </div>
 
@@ -180,10 +180,10 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
             <button
               type="button"
               onClick={() => setFilterType('all')}
-              className={`flex-1 py-2 text-xs rounded-xl border transition text-center ${
+              className={`flex-1 py-2 text-xs rounded-xl border transition text-center cursor-pointer ${
                 filterType === 'all'
-                  ? 'bg-slate-800 text-white border-slate-600 font-bold'
-                  : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                  ? 'bg-slate-900 text-white border-slate-900 font-bold shadow-xs'
+                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
               }`}
             >
               هەمووی ({vehicles.length})
@@ -192,10 +192,10 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
             <button
               type="button"
               onClick={() => setFilterType('repeat')}
-              className={`flex-1 py-2 text-xs rounded-xl border transition text-center ${
+              className={`flex-1 py-2 text-xs rounded-xl border transition text-center cursor-pointer ${
                 filterType === 'repeat'
-                  ? 'bg-slate-800 text-white border-slate-600 font-bold'
-                  : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                  ? 'bg-slate-900 text-white border-slate-900 font-bold shadow-xs'
+                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
               }`}
             >
               زیاتر لە ١ جار ({repeatCustomersCount})
@@ -207,9 +207,9 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
       {/* Vehicles Archive List */}
       <div className="space-y-3">
         {filteredVehicles.length === 0 ? (
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-10 text-center space-y-2">
-            <Car className="w-8 h-8 text-slate-600 mx-auto" />
-            <p className="text-xs text-slate-400">
+          <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center space-y-2 shadow-2xs">
+            <Car className="w-8 h-8 text-slate-400 mx-auto" />
+            <p className="text-xs text-slate-500">
               هیچ ئۆتۆمبێلێک نەدۆزرایەوە بەپێی ئەم گەڕانە ({searchQuery}).
             </p>
           </div>
@@ -220,22 +220,22 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
             return (
               <div
                 key={item.vehicle.id}
-                className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 transition hover:border-slate-700"
+                className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 transition hover:border-slate-300 shadow-2xs"
               >
                 {/* Main Card Overview */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   {/* Vehicle Identity & Plate */}
                   <div className="flex items-start gap-3">
-                    <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 shrink-0 mt-0.5">
-                      <Car className="w-5 h-5 text-slate-300" />
+                    <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 shrink-0 mt-0.5">
+                      <Car className="w-5 h-5 text-slate-700" />
                     </div>
 
                     <div className="space-y-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className={`font-mono font-bold text-xs px-2.5 py-0.5 rounded border ${
                           item.vehicle.licensePlate.includes('علوج')
-                            ? 'bg-amber-950/40 text-amber-300 border-amber-500/40'
-                            : 'bg-slate-950 text-white border-slate-800'
+                            ? 'bg-amber-50 text-amber-900 border-amber-300'
+                            : 'bg-slate-50 text-slate-900 border-slate-200'
                         }`}>
                           {item.vehicle.licensePlate}
                         </span>
@@ -246,18 +246,18 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
                           </span>
                         )}
 
-                        <h3 className="font-bold text-sm text-white">
+                        <h3 className="font-bold text-sm text-slate-900">
                           {item.vehicle.make} {item.vehicle.model}
                         </h3>
 
                         {/* Visited Count Badge */}
-                        <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-200">
+                        <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700">
                           {item.totalVisits} جار هاتووە بۆ ڕۆنگۆڕین
                         </span>
                       </div>
 
-                      <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400">
-                        <span className="flex items-center gap-1 text-slate-300">
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
+                        <span className="flex items-center gap-1 text-slate-700">
                           <User className="w-3.5 h-3.5 text-slate-400" />
                           {item.customer?.fullName || 'خاوەنی نەناسراو'}
                         </span>
@@ -269,11 +269,11 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
                           </span>
                         )}
 
-                        <span className="text-slate-500">•</span>
+                        <span className="text-slate-300">•</span>
 
                         <span className="flex items-center gap-1">
                           <Gauge className="w-3.5 h-3.5 text-slate-400" />
-                          کیلۆمەتر: <strong className="text-white font-mono">{item.vehicle.currentOdometer.toLocaleString()} KM</strong>
+                          کیلۆمەتر: <strong className="text-slate-900 font-mono">{item.vehicle.currentOdometer.toLocaleString()} KM</strong>
                         </span>
                       </div>
                     </div>
@@ -282,17 +282,17 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
                   {/* Summary of Last Oil Service & Actions */}
                   <div className="flex flex-wrap items-center gap-3 self-end sm:self-center">
                     {item.latestCost > 0 && (
-                      <div className="text-left bg-slate-950/80 px-3 py-1.5 rounded-xl border border-emerald-500/30 text-xs">
-                        <span className="text-[10px] text-emerald-400 block">دوایین تێچوو</span>
-                        <span className="font-bold text-emerald-400 block font-mono">
+                      <div className="text-left bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 text-xs shadow-2xs">
+                        <span className="text-[10px] text-emerald-700 block">دوایین تێچوو</span>
+                        <span className="font-bold text-emerald-900 block font-mono">
                           {item.latestCost.toLocaleString()} IQD
                         </span>
                       </div>
                     )}
 
-                    <div className="text-left bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-800 text-xs">
+                    <div className="text-left bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 text-xs shadow-2xs">
                       <span className="text-[10px] text-slate-500 block">دوایین ڕۆنگۆڕین</span>
-                      <span className="font-bold text-slate-200 block font-mono">
+                      <span className="font-bold text-slate-800 block font-mono">
                         {item.latestViscosity} • {item.lastServiceDate}
                       </span>
                     </div>
@@ -300,13 +300,13 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
                     <button
                       type="button"
                       onClick={() => setExpandedVehicleId(isExpanded ? null : item.vehicle.id)}
-                      className="px-3 py-2 bg-slate-950 hover:bg-slate-800 text-slate-300 hover:text-white rounded-xl border border-slate-800 text-xs font-medium transition flex items-center gap-1.5"
+                      className="px-3 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-slate-900 rounded-xl border border-slate-200 text-xs font-medium transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
                     >
                       <span>مێژووی سەردانەکان</span>
                       {isExpanded ? (
-                        <ChevronUp className="w-4 h-4 text-slate-400" />
+                        <ChevronUp className="w-4 h-4 text-slate-500" />
                       ) : (
-                        <ChevronDown className="w-4 h-4 text-slate-400" />
+                        <ChevronDown className="w-4 h-4 text-slate-500" />
                       )}
                     </button>
 
@@ -314,7 +314,7 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
                       <button
                         type="button"
                         onClick={() => setStickerModalRecord(item.latestOilRecord)}
-                        className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-xl border border-slate-700 transition"
+                        className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 rounded-xl border border-slate-200 transition cursor-pointer shadow-2xs"
                         title="چاپی لەزگە"
                       >
                         <Printer className="w-4 h-4" />
@@ -325,10 +325,10 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
 
                 {/* Expandable Visit Timeline */}
                 {isExpanded && (
-                  <div className="mt-4 pt-4 border-t border-slate-800/80 space-y-3">
-                    <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
-                      <span className="font-bold text-white flex items-center gap-1.5">
-                        <History className="w-3.5 h-3.5 text-slate-300" />
+                  <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
+                    <div className="flex items-center justify-between text-xs text-slate-500 mb-1">
+                      <span className="font-bold text-slate-900 flex items-center gap-1.5">
+                        <History className="w-3.5 h-3.5 text-slate-600" />
                         تەواوی جارەکانی گۆڕینی ڕۆن ({item.totalVisits} جار تۆمارکراوە)
                       </span>
                     </div>
@@ -339,30 +339,30 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
                         item.oilRecords.map((rec, index) => (
                           <div
                             key={rec.id}
-                            className="bg-slate-950 p-3 rounded-xl border border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                            className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-2xs"
                           >
                             <div className="flex items-center gap-3">
-                              <span className="w-6 h-6 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center font-mono font-bold text-[11px] shrink-0">
+                              <span className="w-6 h-6 rounded-full bg-slate-200 text-slate-800 flex items-center justify-center font-mono font-bold text-[11px] shrink-0">
                                 {index + 1}
                               </span>
 
                               <div>
                                 <div className="flex flex-wrap items-center gap-2">
-                                  <strong className="text-white font-mono text-xs">
+                                  <strong className="text-slate-900 font-mono text-xs">
                                     {rec.oilViscosity} — {rec.oilBrand}
                                   </strong>
                                   <span className="text-slate-500 font-mono">({rec.volumeUsedLiters} لیتر)</span>
                                   {rec.totalCostIQD !== undefined && rec.totalCostIQD > 0 && (
-                                    <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 rounded-md font-mono font-bold text-[11px] flex items-center gap-1">
-                                      <Coins className="w-3 h-3 text-emerald-400" />
+                                    <span className="px-2 py-0.5 bg-emerald-100 text-emerald-900 border border-emerald-300 rounded-md font-mono font-bold text-[11px] flex items-center gap-1">
+                                      <Coins className="w-3 h-3 text-emerald-700" />
                                       {rec.totalCostIQD.toLocaleString()} IQD
                                     </span>
                                   )}
                                 </div>
-                                <p className="text-[11px] text-slate-400 mt-0.5">
-                                  بەروار: <span className="font-mono text-slate-300">{rec.serviceDate}</span> • کیلۆمەتر: <span className="font-mono text-slate-300">{rec.currentOdometer.toLocaleString()} KM</span> • فلتەر: <span className="text-slate-300">{rec.oilFilterPartNumber}</span>
+                                <p className="text-[11px] text-slate-500 mt-0.5">
+                                  بەروار: <span className="font-mono text-slate-700">{rec.serviceDate}</span> • کیلۆمەتر: <span className="font-mono text-slate-700">{rec.currentOdometer.toLocaleString()} KM</span> • فلتەر: <span className="text-slate-700">{rec.oilFilterPartNumber}</span>
                                   {rec.costNotes && (
-                                    <span className="text-slate-400 mr-1.5 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
+                                    <span className="text-slate-600 mr-1.5 text-[10px] bg-white px-1.5 py-0.5 rounded border border-slate-200">
                                       تێبینی: {rec.costNotes}
                                     </span>
                                   )}
@@ -371,14 +371,14 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
                             </div>
 
                             <div className="flex items-center gap-3 self-end sm:self-center">
-                              <div className="text-left font-mono text-[11px] bg-slate-900 px-2.5 py-1 rounded border border-slate-800 text-slate-300">
+                              <div className="text-left font-mono text-[11px] bg-white px-2.5 py-1 rounded border border-slate-200 text-slate-700">
                                 وادەی داهاتوو: {rec.nextServiceOdometer?.toLocaleString()} KM
                               </div>
 
                               <button
                                 type="button"
                                 onClick={() => setStickerModalRecord(rec)}
-                                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-[11px] font-medium transition flex items-center gap-1"
+                                className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-[11px] font-medium transition flex items-center gap-1 cursor-pointer shadow-xs"
                               >
                                 <Printer className="w-3 h-3" />
                                 چاپکردنی لەزگە
@@ -391,19 +391,19 @@ export const CarArchiveModule: React.FC<CarArchiveModuleProps> = ({
                         item.vehicle.mileageHistory.map((m, idx) => (
                           <div
                             key={m.id || idx}
-                            className="bg-slate-950 p-3 rounded-xl border border-slate-800/80 flex items-center justify-between text-xs"
+                            className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs shadow-2xs"
                           >
                             <div className="flex items-center gap-2.5">
-                              <span className="w-6 h-6 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center font-mono text-[11px]">
+                              <span className="w-6 h-6 rounded-full bg-slate-200 text-slate-800 flex items-center justify-center font-mono text-[11px]">
                                 {idx + 1}
                               </span>
                               <div>
-                                <span className="text-white font-semibold">{m.serviceType || 'گۆڕینی ڕۆن'}</span>
-                                <span className="text-slate-400 mr-2 font-mono">({m.date})</span>
+                                <span className="text-slate-900 font-semibold">{m.serviceType || 'گۆڕینی ڕۆن'}</span>
+                                <span className="text-slate-500 mr-2 font-mono">({m.date})</span>
                               </div>
                             </div>
 
-                            <span className="font-mono text-slate-300 font-bold">
+                            <span className="font-mono text-slate-800 font-bold">
                               {m.odometer.toLocaleString()} {m.unit}
                             </span>
                           </div>
